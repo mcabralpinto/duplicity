@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://b25iadv7l7270"]
+
+[ext_resource type="Texture2D" uid="uid://dxt1cen1ewvp0" path="res://assets/draw_circle/terminal.png" id="1_8j01x"]
+[ext_resource type="Script" uid="uid://djixqgaw2b4ks" path="res://scenes/draw_circle/left/left.gd" id="1_340e6"]
+
+[node name="draw_circle_left" type="Node2D"]
+script = ExtResource("1_340e6")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_8j01x")
+centered = false
+
+[node name="Label" type="Label" parent="."]
+offset_right = 950.0
+offset_bottom = 529.0

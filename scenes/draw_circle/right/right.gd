@@ -77,7 +77,7 @@ func start_drawing():
 	line_points = [start_pos]
 	current_line.points = line_points
 	
-	print("Started drawing at: ", start_pos)
+	#print("Started drawing at: ", start_pos)
 
 func add_drawing_point(position: Vector2):
 	if current_line and is_drawing:
@@ -94,7 +94,7 @@ func clear_current_drawing():
 		current_line = null
 	
 	line_points = []
-	print("Cleared drawing")
+	#print("Cleared drawing")
 
 func _exit_tree():
 	# Always restore mouse mode when exiting
