@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://ctaqn5nlb2787"]
+
+[ext_resource type="Texture2D" uid="uid://cqftxabqj06ot" path="res://assets/frame.png" id="1_w2twt"]
+
+[node name="main_frame" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(9, 32)
+texture = ExtResource("1_w2twt")
+centered = false
+offset = Vector2(-9, -32)

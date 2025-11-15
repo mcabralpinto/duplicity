@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://0jyki3bbxi1a"]
+
+[ext_resource type="Texture2D" uid="uid://bq2fem6m52rpl" path="res://assets/pencil.png" id="1_ebqqf"]
+[ext_resource type="Script" uid="uid://mqc73if4ja0o" path="res://scenes/draw_circle/pencil.gd" id="1_f7j1e"]
+
+[node name="pencil" type="Node2D"]
+script = ExtResource("1_f7j1e")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -81)
+scale = Vector2(0.22131148, 0.22131148)
+texture = ExtResource("1_ebqqf")
+centered = false

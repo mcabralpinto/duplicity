@@ -1,0 +1,36 @@
+[gd_scene load_steps=5 format=3 uid="uid://butkjqdorq1mf"]
+
+[ext_resource type="Texture2D" uid="uid://bjjwwhcegctvg" path="res://assets/interview/interview3.png" id="1_vmidc"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8ue3s"]
+atlas = ExtResource("1_vmidc")
+region = Rect2(0, 0, 1917, 1043)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_snsyr"]
+atlas = ExtResource("1_vmidc")
+region = Rect2(0, 1043, 1917, 1043)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_wy2n6"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8ue3s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_snsyr")
+}],
+"loop": true,
+"name": &"talk",
+"speed": 5.0
+}]
+
+[node name="interview-scene" type="Node2D"]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.99634844, 0.50910836)
+sprite_frames = SubResource("SpriteFrames_wy2n6")
+animation = &"talk"
+autoplay = "talk"
+frame = 1
+frame_progress = 0.033404127
+centered = false
