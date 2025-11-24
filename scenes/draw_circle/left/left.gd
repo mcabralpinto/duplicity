@@ -1,5 +1,6 @@
 extends Node2D
 
+@onready var draw_circle_game = get_parent()
 @onready var letter_display = $Label
 
 func _ready():
@@ -18,11 +19,18 @@ func _ready():
 	letter_display.position = viewport_size / 2
 
 func _input(event):
+	if not draw_circle_game.visible:
+		return
 	if event is InputEventKey and event.pressed:
 		var typed_char = char(event.unicode)
 		
-		#if typed_char.is_alpha():
-		display_letter(typed_char.to_lower())
+		if typed_char in "abcdefghijklmnopqrstuvwxyz":
+			display_letter(typed_char.to_lower())
+
+		if typed_char == "o":
+			# temporary
+			await get_tree().create_timer(2.0).timeout
+			draw_circle_game.end_game(1)
 
 func display_letter(letter: String):
 	letter_display.text = letter

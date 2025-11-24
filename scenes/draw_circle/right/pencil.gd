@@ -33,13 +33,10 @@ func _on_mouse_exited():
 	)
 	warp_mouse(constrained_pos)
 
-func _process(delta):
-	var mouse_pos = get_global_mouse_position()
-	pencil.global_position = mouse_pos
 
-func warp_mouse(position: Vector2):
+func warp_mouse(target_position: Vector2):
 	var viewport = get_viewport()
-	var local_pos = viewport.get_screen_transform().affine_inverse() * position
+	var local_pos = viewport.get_screen_transform().affine_inverse() * target_position
 	viewport.warp_mouse(local_pos)
 
 func _exit_tree():

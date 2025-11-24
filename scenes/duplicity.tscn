@@ -1,19 +1,24 @@
-[gd_scene load_steps=5 format=3 uid="uid://gdf6ir2hmcr4"]
+[gd_scene load_steps=7 format=3 uid="uid://gdf6ir2hmcr4"]
 
 [ext_resource type="PackedScene" uid="uid://ctaqn5nlb2787" path="res://scenes/main_frame.tscn" id="1_mdb5f"]
+[ext_resource type="Script" uid="uid://cvdyiave78t0a" path="res://scenes/duplicity.gd" id="1_pf8ef"]
 [ext_resource type="PackedScene" uid="uid://butkjqdorq1mf" path="res://scenes/interview_scene.tscn" id="2_1b5o7"]
-[ext_resource type="PackedScene" uid="uid://diw5wdd87t5s2" path="res://scenes/draw_circle/right/right.tscn" id="3_1b5o7"]
-[ext_resource type="PackedScene" uid="uid://b25iadv7l7270" path="res://scenes/draw_circle/left/left.tscn" id="4_q6q0a"]
+[ext_resource type="PackedScene" uid="uid://bd11s7uq40ynf" path="res://scenes/caption.tscn" id="5_35ix2"]
+[ext_resource type="Script" uid="uid://2rsn7k2svwie" path="res://scenes/minigame.gd" id="6_pf8ef"]
+[ext_resource type="PackedScene" uid="uid://bo523bqqlcmqp" path="res://scenes/minigame.tscn" id="7_lw4ws"]
 
 [node name="duplicity" type="Node2D"]
+script = ExtResource("1_pf8ef")
 
 [node name="main_frame" parent="." instance=ExtResource("1_mdb5f")]
 
 [node name="interview-scene" parent="." instance=ExtResource("2_1b5o7")]
+light_mask = 512
+visibility_layer = 512
 position = Vector2(5, 5)
 
-[node name="circle-right" parent="." instance=ExtResource("3_1b5o7")]
-position = Vector2(965, 546)
+[node name="caption" parent="." instance=ExtResource("5_35ix2")]
+position = Vector2(0, 454)
 
-[node name="draw_circle_left" parent="." instance=ExtResource("4_q6q0a")]
-position = Vector2(5, 546)
+[node name="minigame" parent="." instance=ExtResource("7_lw4ws")]
+script = ExtResource("6_pf8ef")

@@ -7,7 +7,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yby0r"]
 size = Vector2(950, 529)
 
-[node name="draw-circle-right" type="Node2D"]
+[node name="draw_circle_right" type="Node2D"]
 script = ExtResource("1_yby0r")
 
 [node name="background" type="Sprite2D" parent="."]

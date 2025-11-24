@@ -1,8 +1,9 @@
 # Canvas scene script
 extends Node2D
 
+@onready var draw_circle_game = get_parent()
 @onready var area_2d = $Area2D
-@onready var pencil = $pencil  # Your pencil node
+@onready var pencil = $pencil
 
 var is_hovering = false
 var original_mouse_mode: int
@@ -49,6 +50,8 @@ func _process(delta):
 			add_drawing_point(pencil.position)
 
 func _input(event):
+	if not draw_circle_game.visible:
+		return
 	if is_hovering and event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			if event.pressed:
