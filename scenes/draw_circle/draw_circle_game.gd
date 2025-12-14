@@ -12,9 +12,9 @@ func set_visibility(visibility: bool) -> void:
 func run_game() -> void:
 	set_visibility(true)
 
-func end_game(result_val: int) -> void:
+func end_game(variant: String, change: int) -> void:
 	set_visibility(false)
-	minigame.end_game(result_val)
+	minigame.end_game(variant, change)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:

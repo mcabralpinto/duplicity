@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://c07romnd1q73v"]
+
+[ext_resource type="Script" path="res://scenes/rhythm/dot.gd" id="1_dfckm"]
+[ext_resource type="Texture2D" uid="uid://bvbrac70ujusd" path="res://assets/rhythm/pip2.png" id="1_xvh3r"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pexx8"]
+size = Vector2(30, 30)
+
+[node name="dot" type="Node2D"]
+script = ExtResource("1_dfckm")
+
+[node name="sprite" type="Sprite2D" parent="."]
+scale = Vector2(0.28875002, 0.28875002)
+texture = ExtResource("1_xvh3r")
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(-15, -15)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(15, 15)
+shape = SubResource("RectangleShape2D_pexx8")
+
+[node name="label" type="Label" parent="."]
+offset_left = -15.0
+offset_top = -11.0
+offset_right = 15.0
+offset_bottom = 12.0
+horizontal_alignment = 1

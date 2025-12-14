@@ -1,27 +1,39 @@
 extends Node2D
 
 @onready var duplicity = get_parent()
+@onready var logger = get_node("../logger")
 @onready var draw_circle_game = $draw_circle_game
+@onready var rhythm_game = $rhythm_game
 
 var game = null
-var game_map = {}
+var game_map := {}
+var result_map := {}
 var result = 0 # 1 -> left brain, 2 -> right brain, 3 -> both
 	
 func _ready() -> void:
 	game_map = {
-		2: draw_circle_game
+		2: draw_circle_game,
+		4: rhythm_game
 		# add more as we implement them
+	}
+	result_map = {
+		0: "none",
+		1: "left",
+		2: "right",
+		3: "both"
 	}
 
 func run_game(section: int) -> void:
 	if section in game_map:
 		game = game_map[section]
+		logger.log_custom([], "event", "minigame_start", game)
 		game.run_game()
 
-func end_game(result_val: int) -> void:
-	result = result_val
+func end_game(variant: String, change: int) -> void:
+	result = variant
 	game = null
-	duplicity.process_minigame_end()
+	logger.log_custom([], "event", "minigame_end", "")
+	duplicity.process_minigame_end(change)
 
 func _process(_delta: float) -> void:
 	pass

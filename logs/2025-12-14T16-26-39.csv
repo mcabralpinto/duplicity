@@ -1,0 +1,30 @@
+5,(4, 0, 0),2025-12-14T16:26:40,action,press,Left Mouse Button
+5,(4, 0, 0),2025-12-14T16:26:40,action,press,Space
+5,(4, 0, 0),2025-12-14T16:26:40,action,press,Left Mouse Button
+5,(4, 0, 0),2025-12-14T16:26:40,action,press,Space
+5,(4, 0, 0),2025-12-14T16:26:40,action,press,Left Mouse Button
+5,(4, 1, 0),2025-12-14T16:26:40,state,line,1
+5,(4, 1, 0),2025-12-14T16:26:40,action,press,Space
+5,(4, 1, 0),2025-12-14T16:26:40,action,press,Left Mouse Button
+5,(4, 1, 0),2025-12-14T16:26:40,action,press,Left Mouse Button (Double Click)
+5,(4, 1, 0),2025-12-14T16:26:41,action,press,Space
+5,(4, 2, 0),2025-12-14T16:26:41,state,line,2
+5,(4, 2, 0),2025-12-14T16:26:41,action,press,Left Mouse Button
+5,(4, 2, 0),2025-12-14T16:26:41,action,press,Space
+5,(4, 2, 0),2025-12-14T16:26:41,action,press,Left Mouse Button (Double Click)
+5,(4, 2, 0),2025-12-14T16:26:41,action,press,Space
+5,(4, 3, 0),2025-12-14T16:26:41,state,line,3
+5,(4, 3, 0),2025-12-14T16:26:41,action,press,Left Mouse Button
+5,(4, 3, 0),2025-12-14T16:26:41,action,press,Space
+5,(4, 3, 0),2025-12-14T16:26:41,action,press,Left Mouse Button (Double Click)
+5,(4, 3, 0),2025-12-14T16:26:42,action,press,Space
+5,(4, 3, 0),2025-12-14T16:26:42,action,press,Left Mouse Button
+5,(4, 4, 0),2025-12-14T16:26:42,state,line,4
+5,(4, 4, 0),2025-12-14T16:26:42,action,press,Left Mouse Button (Double Click)
+5,(4, 4, 0),2025-12-14T16:26:42,action,press,Space
+5,(4, 4, 0),2025-12-14T16:26:42,action,press,Left Mouse Button
+5,(4, 4, 0),2025-12-14T16:26:43,action,press,Left Mouse Button
+5,(4, 4, 0),2025-12-14T16:26:43,action,press,Space
+5,(4, 5, 0),2025-12-14T16:26:43,state,line,5
+5,(4, 5, 0),2025-12-14T16:26:43,event,minigame_start,rhythm_game:<Node2D#40131102159>
+5,(4, 5, 0),2025-12-14T16:26:46,action,press,Ctrl

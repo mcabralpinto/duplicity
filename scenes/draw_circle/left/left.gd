@@ -2,6 +2,7 @@ extends Node2D
 
 @onready var draw_circle_game = get_parent()
 @onready var letter_display = $Label
+var success_timer: Timer
 
 func _ready():
 	letter_display.visible = false
@@ -17,20 +18,31 @@ func _ready():
 	# Center in screen
 	var viewport_size = get_viewport_rect().size
 	letter_display.position = viewport_size / 2
+	
+	# Create the success timer
+	success_timer = Timer.new()
+	success_timer.wait_time = 2.0
+	success_timer.one_shot = true
+	success_timer.timeout.connect(_on_success_timer_timeout)
+	add_child(success_timer)
 
 func _input(event):
 	if not draw_circle_game.visible:
 		return
-	if event is InputEventKey and event.pressed:
-		var typed_char = char(event.unicode)
 		
-		if typed_char in "abcdefghijklmnopqrstuvwxyz":
-			display_letter(typed_char.to_lower())
+	if event is InputEventKey:
+		if event.pressed:
+			var typed_char = char(event.unicode).to_lower()
+			
+			if typed_char in "abcdefghijklmnopqrstuvwxyz":
+				display_letter(typed_char)
 
-		if typed_char == "o":
-			# temporary
-			await get_tree().create_timer(2.0).timeout
-			draw_circle_game.end_game(1)
+			if typed_char == "o":
+				if success_timer.is_stopped():
+					success_timer.start()
+			else:
+				# If any other key is pressed, stop the success timer
+				success_timer.stop()
 
 func display_letter(letter: String):
 	letter_display.text = letter
@@ -55,3 +67,6 @@ func create_disappear_timer():
 
 func _on_timer_timeout():
 	letter_display.visible = false
+
+func _on_success_timer_timeout():
+	draw_circle_game.end_game("a", 0)

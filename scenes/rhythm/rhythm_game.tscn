@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://ceb4ummjiwos4"]
+
+[ext_resource type="Script" uid="uid://cld0hf5avl4x3" path="res://scenes/rhythm/rhythm_game.gd" id="1_po6b3"]
+[ext_resource type="PackedScene" uid="uid://72hgaf8iwam6" path="res://scenes/rhythm/left/left.tscn" id="1_rmg3k"]
+[ext_resource type="PackedScene" uid="uid://dwijbd2xssw2g" path="res://scenes/rhythm/right/right.tscn" id="3_yrp3l"]
+
+[node name="rhythm_game" type="Node2D"]
+script = ExtResource("1_po6b3")
+
+[node name="left" parent="." instance=ExtResource("1_rmg3k")]
+position = Vector2(5, 546)
+
+[node name="right" parent="." instance=ExtResource("3_yrp3l")]
+position = Vector2(965, 547)

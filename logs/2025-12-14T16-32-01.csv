@@ -1,0 +1,83 @@
+6,(4, 0, 0),2025-12-14T16:32:01,action,press,Space
+6,(4, 0, 0),2025-12-14T16:32:01,action,press,Left Mouse Button
+6,(4, 0, 0),2025-12-14T16:32:01,action,press,Left Mouse Button
+6,(4, 0, 0),2025-12-14T16:32:01,action,press,Space
+6,(4, 1, 0),2025-12-14T16:32:01,state,line,1
+6,(4, 1, 0),2025-12-14T16:32:02,action,press,Space
+6,(4, 1, 0),2025-12-14T16:32:02,action,press,Left Mouse Button
+6,(4, 1, 0),2025-12-14T16:32:02,action,press,Space
+6,(4, 1, 0),2025-12-14T16:32:02,action,press,Left Mouse Button (Double Click)
+6,(4, 2, 0),2025-12-14T16:32:02,state,line,2
+6,(4, 2, 0),2025-12-14T16:32:02,action,press,Left Mouse Button
+6,(4, 2, 0),2025-12-14T16:32:02,action,press,Space
+6,(4, 2, 0),2025-12-14T16:32:03,action,press,Left Mouse Button (Double Click)
+6,(4, 2, 0),2025-12-14T16:32:03,action,press,Space
+6,(4, 2, 0),2025-12-14T16:32:03,action,press,Left Mouse Button
+6,(4, 2, 0),2025-12-14T16:32:03,action,press,Space
+6,(4, 3, 0),2025-12-14T16:32:03,state,line,3
+6,(4, 3, 0),2025-12-14T16:32:03,action,press,Left Mouse Button (Double Click)
+6,(4, 3, 0),2025-12-14T16:32:03,action,press,Space
+6,(4, 3, 0),2025-12-14T16:32:03,action,press,Left Mouse Button
+6,(4, 4, 0),2025-12-14T16:32:03,state,line,4
+6,(4, 4, 0),2025-12-14T16:32:03,action,press,Space
+6,(4, 4, 0),2025-12-14T16:32:04,action,press,Left Mouse Button (Double Click)
+6,(4, 4, 0),2025-12-14T16:32:04,action,press,Space
+6,(4, 4, 0),2025-12-14T16:32:04,action,press,Left Mouse Button
+6,(4, 4, 0),2025-12-14T16:32:04,action,press,Space
+6,(4, 5, 0),2025-12-14T16:32:04,state,line,5
+6,(4, 5, 0),2025-12-14T16:32:04,event,minigame_start,rhythm_game:<Node2D#40131102159>
+6,(4, 5, 0),2025-12-14T16:32:05,action,press,1
+6,(4, 5, 0),2025-12-14T16:32:06,action,press,Left Mouse Button
+6,(4, 5, 0),2025-12-14T16:32:06,action,press,Left Mouse Button
+6,(4, 5, 0),2025-12-14T16:32:06,action,press,Left Mouse Button
+6,(4, 5, 0),2025-12-14T16:32:07,action,press,Left Mouse Button
+6,(4, 5, 0),2025-12-14T16:32:08,action,press,Left Mouse Button
+6,(4, 5, 0),2025-12-14T16:32:08,action,press,Left Mouse Button
+6,(4, 5, 0),2025-12-14T16:32:09,action,press,Left Mouse Button
+6,(4, 5, 0),2025-12-14T16:32:10,action,press,Left Mouse Button
+6,(4, 5, 0),2025-12-14T16:32:10,action,press,Left Mouse Button
+6,(4, 5, 0),2025-12-14T16:32:10,action,press,Left Mouse Button
+6,(4, 5, 0),2025-12-14T16:32:11,action,press,Left Mouse Button
+6,(4, 5, 0),2025-12-14T16:32:12,action,press,Left Mouse Button
+6,(4, 5, 0),2025-12-14T16:32:12,action,press,Left Mouse Button
+6,(4, 5, 0),2025-12-14T16:32:13,action,press,Left Mouse Button
+6,(4, 5, 0),2025-12-14T16:32:13,action,press,Left Mouse Button
+6,(4, 5, 0),2025-12-14T16:32:13,action,press,Left Mouse Button
+6,(4, 5, 0),2025-12-14T16:32:14,action,press,Left Mouse Button
+6,(4, 5, 0),2025-12-14T16:32:14,action,press,Left Mouse Button
+6,(4, 5, 0),2025-12-14T16:32:14,action,press,Left Mouse Button
+6,(4, 5, 0),2025-12-14T16:32:15,action,press,Left Mouse Button
+6,(4, 5, 0),2025-12-14T16:32:16,action,press,Left Mouse Button
+6,(4, 5, 0),2025-12-14T16:32:16,action,press,Left Mouse Button
+6,(4, 5, 0),2025-12-14T16:32:16,action,press,Left Mouse Button
+6,(4, 5, 0),2025-12-14T16:32:17,action,press,Left Mouse Button
+6,(4, 5, 0),2025-12-14T16:32:17,action,press,Left Mouse Button
+6,(4, 5, 0),2025-12-14T16:32:18,action,press,Left Mouse Button
+6,(4, 5, 0),2025-12-14T16:32:18,action,press,Left Mouse Button
+6,(4, 5, 0),2025-12-14T16:32:19,action,press,Left Mouse Button
+6,(4, 5, 0),2025-12-14T16:32:19,action,press,Left Mouse Button
+6,(4, 5, 0),2025-12-14T16:32:20,action,press,Left Mouse Button
+6,(4, 5, 0),2025-12-14T16:32:22,action,press,Left Mouse Button
+6,(4, 5, 0),2025-12-14T16:32:23,action,press,Left Mouse Button
+6,(4, 5, 0),2025-12-14T16:32:23,action,press,Left Mouse Button
+6,(4, 5, 0),2025-12-14T16:32:24,action,press,Left Mouse Button
+6,(4, 5, 0),2025-12-14T16:32:25,action,press,Left Mouse Button
+6,(4, 5, 0),2025-12-14T16:32:26,action,press,Left Mouse Button
+6,(4, 5, 0),2025-12-14T16:32:26,action,press,Left Mouse Button
+6,(4, 5, 0),2025-12-14T16:32:27,action,press,Left Mouse Button
+6,(4, 5, 0),2025-12-14T16:32:28,action,press,Left Mouse Button
+6,(4, 5, 0),2025-12-14T16:32:28,action,press,Left Mouse Button
+6,(4, 5, 0),2025-12-14T16:32:29,action,press,Left Mouse Button
+6,(4, 5, 0),2025-12-14T16:32:29,action,press,Left Mouse Button
+6,(4, 5, 0),2025-12-14T16:32:30,action,press,Left Mouse Button
+6,(4, 5, 0),2025-12-14T16:32:30,action,press,Left Mouse Button
+6,(4, 5, 0),2025-12-14T16:32:31,action,press,Left Mouse Button
+6,(4, 5, 0),2025-12-14T16:32:32,action,press,Left Mouse Button
+6,(4, 5, 0),2025-12-14T16:32:32,action,press,Left Mouse Button
+6,(4, 5, 0),2025-12-14T16:32:32,action,press,Left Mouse Button
+6,(4, 5, 0),2025-12-14T16:32:33,action,press,Left Mouse Button
+6,(4, 5, 0),2025-12-14T16:32:33,action,press,Left Mouse Button
+6,(4, 5, 0),2025-12-14T16:32:34,action,press,Left Mouse Button
+6,(4, 5, 0),2025-12-14T16:32:34,event,minigame_end,
+6,(5, 5, 0),2025-12-14T16:32:34,state,section,5
+6,(5, 0, -10),2025-12-14T16:32:34,state,line,0

@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://dd3wagnxel6ow"]
+
+[ext_resource type="Script" path="res://scenes/logger.gd" id="1_hku5m"]
+
+[node name="logger" type="Node2D"]
+visible = false
+script = ExtResource("1_hku5m")
