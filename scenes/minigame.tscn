@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://bo523bqqlcmqp"]
+[gd_scene load_steps=4 format=3 uid="uid://bo523bqqlcmqp"]
 
 [ext_resource type="PackedScene" uid="uid://bgo3thwbke66k" path="res://scenes/draw_circle/draw_circle_game.tscn" id="1_5iev5"]
 [ext_resource type="PackedScene" uid="uid://ceb4ummjiwos4" path="res://scenes/rhythm/rhythm_game.tscn" id="2_hwsak"]
+[ext_resource type="PackedScene" uid="uid://tyk513g7amsn" path="res://scenes/egg/egg_game.tscn" id="3_22ed1"]
 
 [node name="minigame" type="Node2D"]
 
@@ -9,4 +10,7 @@
 visible = false
 
 [node name="rhythm_game" parent="." instance=ExtResource("2_hwsak")]
+visible = false
+
+[node name="egg_game" parent="." instance=ExtResource("3_22ed1")]
 visible = false

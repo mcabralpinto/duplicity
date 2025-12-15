@@ -27,13 +27,13 @@ func run_game() -> void:
 
 func _on_game_timer_timeout() -> void:
 	if left_game.score > 100 and right_game.score > 100:
-		change = 10
+		change = 5
 		variant = "a"
-		if left_game.score + right_game.score > 500:
-			change = 20
+		if left_game.score + right_game.score > 350:
+			change = 10
 			variant = "b"
 	else:
-		change = -10
+		change = -5
 		variant = "c"
 	set_visibility(false)
 	minigame.end_game(variant, change)	

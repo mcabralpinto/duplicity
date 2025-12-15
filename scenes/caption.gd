@@ -13,18 +13,20 @@ var lines = {
 	"pre1": [
 		"So, before anything else, could you kindly explain how history", 
 		"has managed to loop back into itself like a misplaced file,",
-		"reapproved without review, reflecting its cyclical nature?"
+		"reapproved without review, reflecting its cyclical nature?",
+		"(draw a perfect circle)"
 	],
 	"post1a": [
 		"That's quite an analytical way to phrase it!...",
-		"An interesting response nonetheless..."
+		"An... interesting... response nonetheless..."
 	],
 	"pre2": [
 		"Let me ask you something else, more addequate to your level.",
 		"You know, sometimes, something whirls inside of my body, a buzz",
 		"like the scatter of a thousand bugs, and all I want to do",
 		"is dance to the sweet, sweet rhythm...",
-		"Are you ready to join me in following the beat in these occasions?"
+		"Are you ready to join me in following the beat in these occasions?",
+		"(keep up with the rhythm)"
 	],
 	"post2a": [
 		"I've heard enough.",
@@ -32,25 +34,43 @@ var lines = {
 	],
 	"post2b": [
 		"Astonishing! Bravo! I see we'd make a pompous pair.",
-		"We'd be like a little monkey and banana mountain.",
+		"It would be like uniting a little monkey with a banana...",
 		"It's a shame, but we must finish conducting this interview."
 	],
 	"post2c": [
-		"Stop! Stop! I've heard enough",
+		"Stop! Stop! I've heard enough...",
 		"It pains me to see such discomfort when wielding one's own body.",
 		"Anyway..."
 	],
-	"outroa": [
-		"You looked like a pigman emotionally. Beast.",
-		"Really rude and sometimes naive in your behaviour.",
-		"REJECTED!!!"
+	"pre3": [
+		"Let's talk hunger. Drive. Power. But mostly hunger.",
+		"Here at ~~ Company™ ~~ we are hungry for hungry individuals...",
+		"Hungry for work, hungry for paperwork, hungry for life.",
+		"What I ask you, my dear, is how you will saciate our hunger.",
+		"(feed the egg)"
 	],
-	"outrob": [
-		"You are as dumb as a sphynx. Unappealing.",
+	"post3a": [
+		"Wonderful! That got me really egged on.",
+		"I can see you perform all sorts of hunger-related tasks. Anyway..."
+	],
+	"post3b": [
+		"You just can't seem to deal with the most simple of problems.",
+		"Such a lack of mental coordination. Moving on."
+	],
+	"post3c": [
+		"This was truly a spectacle to see. You started off well,",
+		"but it's like you lost your creativity midway through.",
+		"Such a lack of mental coordination. Moving on."
+	],
+	"outroa": [
+		"Now for your final verdict...",
+		"You looked like a pigman at times, others you were dumb as a sphynx.",
+		"Sometimes rude and sometimes naive in your behaviour.",
+		"Beast. Unappealing.",
 		"Please go back to 4th grade...",
 		"REJECTED!!!"
 	],
-	"outroc": [
+	"outrob": [
 		"I am quite surprised by your behaviour.",
 		"You were both emotionally and rationally intelligent.",
 		"AMAZING!!!",
@@ -66,7 +86,9 @@ var caption_map = {
 	3: "post1",
 	4: "pre2",
 	5: "post2",
-	6: "outroa"
+	6: "pre3",
+	7: "post3",
+	8: "outroa"
 	# 6: "pre3",
 	# 7: "post3"
 	# add more as we implement them

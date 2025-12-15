@@ -4,6 +4,7 @@ extends Node2D
 @onready var logger = get_node("../logger")
 @onready var draw_circle_game = $draw_circle_game
 @onready var rhythm_game = $rhythm_game
+@onready var egg_game = $egg_game
 
 var game = null
 var game_map := {}
@@ -13,7 +14,8 @@ var result = 0 # 1 -> left brain, 2 -> right brain, 3 -> both
 func _ready() -> void:
 	game_map = {
 		2: draw_circle_game,
-		4: rhythm_game
+		4: rhythm_game,
+		6: egg_game
 		# add more as we implement them
 	}
 	result_map = {

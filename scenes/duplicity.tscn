@@ -13,7 +13,7 @@ script = ExtResource("1_pf8ef")
 
 [node name="main_frame" parent="." instance=ExtResource("1_mdb5f")]
 
-[node name="interview-scene" parent="." instance=ExtResource("2_1b5o7")]
+[node name="interview_scene" parent="." instance=ExtResource("2_1b5o7")]
 light_mask = 512
 visibility_layer = 512
 position = Vector2(5, 5)

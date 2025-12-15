@@ -69,4 +69,4 @@ func _on_timer_timeout():
 	letter_display.visible = false
 
 func _on_success_timer_timeout():
-	draw_circle_game.end_game("a", 0)
+	draw_circle_game.end_game("a", -10)
