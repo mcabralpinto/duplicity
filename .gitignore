@@ -19,3 +19,6 @@ mono_crash.*.json
 
 *.svg.import
 *.csv.import
+*.png.import
+*.jpeg.import
+*.ttf.import

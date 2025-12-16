@@ -88,7 +88,7 @@ var caption_map = {
 	5: "post2",
 	6: "pre3",
 	7: "post3",
-	8: "outroa"
+	8: "outro"
 	# 6: "pre3",
 	# 7: "post3"
 	# add more as we implement them

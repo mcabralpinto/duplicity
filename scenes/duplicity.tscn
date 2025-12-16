@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://gdf6ir2hmcr4"]
+[gd_scene load_steps=9 format=3 uid="uid://gdf6ir2hmcr4"]
 
 [ext_resource type="PackedScene" uid="uid://ctaqn5nlb2787" path="res://scenes/main_frame.tscn" id="1_mdb5f"]
 [ext_resource type="Script" uid="uid://c8wcfrfwe7l16" path="res://scenes/duplicity.gd" id="1_pf8ef"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://2rsn7k2svwie" path="res://scenes/minigame.gd" id="6_pf8ef"]
 [ext_resource type="PackedScene" uid="uid://bo523bqqlcmqp" path="res://scenes/minigame.tscn" id="7_lw4ws"]
 [ext_resource type="PackedScene" uid="uid://dd3wagnxel6ow" path="res://scenes/logger.tscn" id="7_x5lu1"]
+[ext_resource type="Texture2D" uid="uid://8a4gx6cjggm2" path="res://assets/canvas.png" id="8_x5lu1"]
 
 [node name="duplicity" type="Node2D"]
 script = ExtResource("1_pf8ef")
@@ -25,3 +26,7 @@ position = Vector2(0, 454)
 script = ExtResource("6_pf8ef")
 
 [node name="logger" parent="." instance=ExtResource("7_x5lu1")]
+
+[node name="minigame_bg" type="Sprite2D" parent="."]
+position = Vector2(960, 811)
+texture = ExtResource("8_x5lu1")

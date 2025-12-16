@@ -9,13 +9,13 @@ extends Node2D
 @onready var egg_label = $egg_label
 @onready var speech_bubble = $speech_bubble
 @onready var speech_label = $speech_bubble/speech_label
-@onready var instruction_label = $instruction_label
-@onready var instruction2_label = $instruction2_label
+# @onready var instruction_label = $instruction_label
+# @onready var instruction2_label = $instruction2_label
 
 var score = 0
-var eat_chance = 0.3
-var eggs_left = 55
-var needed_eggs = eggs_left - 5
+var eat_chance = 0.5
+var eggs_left = 28
+var needed_eggs = eggs_left - 3
 var holding_egg = false
 var held_egg_instance = null
 var dropped_eggs = []
@@ -33,8 +33,7 @@ func _ready() -> void:
 	small_egg.visible = false
 	score_label.add_theme_color_override("font_color", Color.BLACK)
 	egg_label.add_theme_color_override("font_color", Color.BLACK)
-	instruction_label.add_theme_color_override("font_color", Color.BLACK)
-	instruction2_label.add_theme_color_override("font_color", Color.BLACK)
+	speech_label.z_index = 20
 	update_score_label()
 	update_egg_label()
 	play_egg_anim("idle")
@@ -77,7 +76,7 @@ func _process(delta: float) -> void:
 			
 			# Check if egg touches big egg
 			var egg_collision = egg.get_node("collision")
-			if egg_collision.global_position.distance_to(dropped_egg.global_position) < 100:
+			if egg_collision.global_position.distance_to(dropped_egg.global_position) < 150:
 				eat_dropped_egg(i)
 				continue # Skip boundary check if eaten
 
@@ -178,7 +177,7 @@ func drop_egg():
 	# Check collision with big egg
 	var egg_collision = egg.get_node("collision")
 	
-	if egg_collision.global_position.distance_to(held_egg_instance.global_position) < 100: # Approximate radius check
+	if egg_collision.global_position.distance_to(held_egg_instance.global_position) < 150: # Approximate radius check
 		feed_egg()
 		return
 
@@ -223,7 +222,7 @@ func feed_egg():
 		play_egg_anim("idle")
 
 func update_score_label():
-	score_label.text = "leave eggs here. eaten eggs: " + str(score)
+	score_label.text = "leave eggs here and guide them to the egg. eaten eggs: " + str(score)
 
 func update_egg_label():
 	egg_label.text = "DON'T leave eggs here. eggs left: " + str(eggs_left)
@@ -260,14 +259,14 @@ func eat_dropped_egg(index: int) -> void:
 		sprite.frame = 0
 	play_egg_anim("munching")
 	
-	if randf() < eat_chance:
-		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
-		mouse_hidden = true
-		show_speech("yuck... this one tasted like mouse")
-	else:
-		score += 1
-		update_score_label()
-		show_speech(egg_sayings[randi() % egg_sayings.size()])
+	# if randf() < eat_chance:
+	# 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+	# 	mouse_hidden = true
+	# 	show_speech("yuck... this one tasted like mouse")
+	# else:
+	score += 1
+	update_score_label()
+	show_speech(egg_sayings[randi() % egg_sayings.size()])
 	
 	check_game_over()
 	

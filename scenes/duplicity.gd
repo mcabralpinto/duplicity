@@ -5,14 +5,16 @@ extends Node2D
 @onready var logger = $logger
 @onready var interview_scene = $interview_scene
 @onready var main_frame = $main_frame
+@onready var minigame_bg = $minigame_bg
 
-var section := 6
+var section := 0
 var line := 0
 var score := 0
 
 func _ready() -> void:
 	interview_scene.z_index = 10
 	main_frame.z_index = 20
+	minigame_bg.z_index = -20
 	
 	if section != 0:
 		caption.set_visibility(true)
@@ -22,9 +24,12 @@ func process_minigame_end(change: int) -> void:
 	section += 1
 	logger.log_custom([section, line, score], "state", "section", str(section))
 	line = 0
-	score += change
 	logger.log_custom([section, line, score], "state", "line", str(line))
+	score += change
+	logger.log_custom([section, line, score], "state", "score_change", str(change))
+	logger.log_custom([section, line, score], "state", "score", str(score))
 	caption.caption_map[section] += minigame.result
+	logger.log_custom([section, line, score], "state", "chat_variant", str(minigame.result))
 	caption.set_text(section, line)
 	#caption.set_visibility(true)
 
@@ -55,6 +60,11 @@ func _process(_delta: float) -> void:
 							get_tree().quit()
 							#caption.set_visibility(false)
 						else:
+							if caption.caption_map[section] == "outro":
+								if score > 0:
+									caption.caption_map[section] += "b"
+								else:
+									caption.caption_map[section] += "a"
 							line = 0
 							logger.log_custom([section, line, score], "state", "line", str(line))
 							caption.set_text(section, line)
