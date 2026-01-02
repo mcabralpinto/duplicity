@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://72hgaf8iwam6"]
 
 [ext_resource type="Script" uid="uid://b84kvrx3lwfqo" path="res://scenes/rhythm/left/left.gd" id="1_74ag5"]
-[ext_resource type="Texture2D" uid="uid://d6wmeivhogt0" path="res://assets/rhythm/sheet2.png" id="2_74ag5"]
+[ext_resource type="Texture2D" uid="uid://dsdy556i8j7ug" path="res://assets/rhythm/sheet2.png" id="2_74ag5"]
 [ext_resource type="PackedScene" uid="uid://c07romnd1q73v" path="res://scenes/rhythm/dot.tscn" id="2_lahfn"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_74ag5"]
@@ -19,11 +19,13 @@ centered = false
 light_mask = 256
 visibility_layer = 256
 position = Vector2(245, 154)
+script = null
 
 [node name="score_label" type="Label" parent="."]
-offset_left = 870.0
-offset_right = 949.0
-offset_bottom = 49.0
+offset_left = 852.0
+offset_top = 18.0
+offset_right = 931.0
+offset_bottom = 67.0
 text = "
 "
 label_settings = SubResource("LabelSettings_74ag5")

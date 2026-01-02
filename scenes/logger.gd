@@ -2,6 +2,7 @@ extends Node2D
 
 var log_path := "res://logs/%s.csv" % Time.get_datetime_string_from_system().replace(":", "-")
 var user_id := DirAccess.get_files_at("res://logs/").size()
+var log := false
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -13,6 +14,8 @@ func _process(delta: float) -> void:
 	pass
 
 func log_custom(vars, category, type, detail) -> void:
+	if not log:
+		return
 	var file
 	var vars_str = ""
 	
@@ -43,7 +46,7 @@ func log_custom(vars, category, type, detail) -> void:
 		
 	if file:
 		if not vars.is_empty():
-			vars_str = "(%s, %s, %s)" % vars
+			vars_str = '"(%s, %s, %s)"' % vars
 			
 		var timestamp = Time.get_datetime_string_from_system()
 		file.store_line("%s,%s,%s,%s,%s,%s" % [user_id, vars_str, timestamp, category, type, detail])

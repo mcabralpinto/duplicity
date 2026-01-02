@@ -13,8 +13,8 @@ var result = 0 # 1 -> left brain, 2 -> right brain, 3 -> both
 	
 func _ready() -> void:
 	game_map = {
-		2: draw_circle_game,
-		4: rhythm_game,
+		2: rhythm_game,
+		4: draw_circle_game,
 		6: egg_game
 		# add more as we implement them
 	}

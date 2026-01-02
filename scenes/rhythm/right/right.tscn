@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://dwijbd2xssw2g"]
 
 [ext_resource type="Script" uid="uid://bnm1ls4mt30gp" path="res://scenes/rhythm/right/right.gd" id="1_1kbch"]
-[ext_resource type="Texture2D" uid="uid://r8qefgsyh23t" path="res://assets/draw_circle/canvas.png" id="1_4eaca"]
+[ext_resource type="Texture2D" uid="uid://bmmr4xewatekn" path="res://assets/draw_circle/canvas.png" id="1_4eaca"]
 [ext_resource type="PackedScene" uid="uid://c07romnd1q73v" path="res://scenes/rhythm/dot.tscn" id="2_ivcbk"]
 
 [node name="right" type="Node2D"]
@@ -12,7 +12,10 @@ position = Vector2(475, 264)
 texture = ExtResource("1_4eaca")
 
 [node name="dot" parent="." instance=ExtResource("2_ivcbk")]
+script = null
 
 [node name="score_label" type="Label" parent="."]
-offset_right = 40.0
-offset_bottom = 23.0
+offset_left = 18.0
+offset_top = 16.0
+offset_right = 58.0
+offset_bottom = 39.0
