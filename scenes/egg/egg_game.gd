@@ -9,6 +9,8 @@ extends Node2D
 @onready var egg_label = $egg_label
 @onready var speech_bubble = $speech_bubble
 @onready var speech_label = $speech_bubble/speech_label
+@onready var speech_basket = $speech_basket
+@onready var speech_basket_label = $speech_basket/speech_label
 # @onready var instruction_label = $instruction_label
 # @onready var instruction2_label = $instruction2_label
 
@@ -21,7 +23,14 @@ var held_egg_instance = null
 var dropped_eggs = []
 var selected_egg_index = -1
 var speech_timer: Timer = null
-var egg_sayings = ["mmm", "mmmmm", "oh boy", "yum", "yummy", "more please", "more plz", "oh yes", "delicious", "tasty", "oh mamma", "scrumptious", "excellent", "good", "what a treat", ":3", "more", "that was so good"]
+var basket_timer: Timer = null
+var egg_sayings = ["mmm", "mmmmm", "oh boy", "yum", "yummy", "more please", "more plz", "oh yes", "delicious", "tasty", "oh mamma", "scrumptious", "excellent", "good", "what a treat", ":3", "more", "that was so good", "i'm so hungry"]
+
+# New vars for safe feeding and basket warnings
+var safe_eggs = 1
+var safe_used = 0
+var basket_warn_shown = false
+var feed_warn_shown = false
 
 func set_visibility(visibility: bool) -> void:
 	self.visible = visibility
@@ -34,22 +43,39 @@ func _ready() -> void:
 	score_label.add_theme_color_override("font_color", Color.BLACK)
 	egg_label.add_theme_color_override("font_color", Color.BLACK)
 	speech_label.z_index = 20
+	speech_basket_label.z_index = 20
 	update_score_label()
 	update_egg_label()
 	play_egg_anim("idle")
 	
 	# Setup speech bubble
 	speech_bubble.visible = false
+	speech_basket.visible = false
 	var font = load("res://assets/PixelatedElegance.ttf")
-	if font and speech_label:
-		speech_label.add_theme_font_override("font", font)
-		speech_label.add_theme_color_override("font_color", Color.BLACK)
+	
+	speech_label.add_theme_font_override("font", font)
+	speech_label.add_theme_color_override("font_color", Color.BLACK)
+
+	speech_basket_label.add_theme_font_override("font", font)
+	speech_basket_label.add_theme_color_override("font_color", Color.BLACK)
+
+	score_label.add_theme_font_override("font", font)
+	score_label.add_theme_color_override("font_color", Color.WHITE)
+
+	egg_label.add_theme_font_override("font", font)
+	egg_label.add_theme_color_override("font_color", Color.WHITE)
 	
 	# Setup speech timer
 	speech_timer = Timer.new()
 	speech_timer.one_shot = true
 	speech_timer.connect("timeout", Callable(self, "_on_speech_timer_timeout"))
 	add_child(speech_timer)
+
+	# Setup basket speech timer
+	basket_timer = Timer.new()
+	basket_timer.one_shot = true
+	basket_timer.connect("timeout", Callable(self, "_on_basket_timer_timeout"))
+	add_child(basket_timer)
 
 func _process(delta: float) -> void:
 	if mouse_hidden:
@@ -155,6 +181,11 @@ func spawn_held_egg():
 	holding_egg = true
 	play_egg_anim("eager")
 
+	# Show basket warning the first time a player picks up an egg
+	if not basket_warn_shown:
+		show_basket_speech("careful, the egg is REALLY hungry")
+		basket_warn_shown = true
+
 func is_point_in_droppable_area(point: Vector2) -> bool:
 	var space_state = get_world_2d().direct_space_state
 	var query = PhysicsPointQueryParameters2D.new()
@@ -201,14 +232,26 @@ func feed_egg():
 		sprite.frame = 0
 	play_egg_anim("munching")
 	
-	if randf() < eat_chance:
-		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
-		mouse_hidden = true
-		show_speech("yuck... this one tasted like mouse")
-	else:
+	# Show basket warning on first mouse-feed
+	if not feed_warn_shown:
+		show_basket_speech("you need to feed the egg SAFELY")
+		feed_warn_shown = true
+
+	# If there are safe_eggs remaining, consume one safely (no mouse-hide probability)
+	if safe_used < safe_eggs:
+		safe_used += 1
 		score += 1
 		update_score_label()
 		show_speech(egg_sayings[randi() % egg_sayings.size()])
+	else:
+		if randf() < eat_chance:
+			Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+			mouse_hidden = true
+			show_speech("yuck... this one tasted like mouse")
+		else:
+			score += 1
+			update_score_label()
+			show_speech(egg_sayings[randi() % egg_sayings.size()])
 	
 	if held_egg_instance:
 		held_egg_instance.queue_free()
@@ -222,10 +265,10 @@ func feed_egg():
 		play_egg_anim("idle")
 
 func update_score_label():
-	score_label.text = "leave eggs here and guide them to the egg. eaten eggs: " + str(score)
+	score_label.text = "eaten eggs: " + str(score)
 
 func update_egg_label():
-	egg_label.text = "DON'T leave eggs here. eggs left: " + str(eggs_left)
+	egg_label.text = "eggs left: " + str(eggs_left)
 
 func play_egg_anim(anim: String) -> void:
 	var sprite = egg.get_node_or_null("AnimatedSprite2D")
@@ -259,11 +302,7 @@ func eat_dropped_egg(index: int) -> void:
 		sprite.frame = 0
 	play_egg_anim("munching")
 	
-	# if randf() < eat_chance:
-	# 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
-	# 	mouse_hidden = true
-	# 	show_speech("yuck... this one tasted like mouse")
-	# else:
+	# dropped eggs always count as eaten (no mouse-hide behavior here)
 	score += 1
 	update_score_label()
 	show_speech(egg_sayings[randi() % egg_sayings.size()])
@@ -285,18 +324,30 @@ func show_speech(text: String) -> void:
 		speech_timer.stop()
 		speech_timer.start(5.0)
 
+func show_basket_speech(text: String) -> void:
+	if speech_basket_label:
+		speech_basket_label.text = text
+	speech_basket.visible = true
+	if basket_timer:
+		basket_timer.stop()
+		basket_timer.start(4.0)
+
 func _on_speech_timer_timeout() -> void:
 	speech_bubble.visible = false
 	if mouse_hidden:
 		self.set_visibility(false)
 		minigame.end_game("c", -10)
 
+func _on_basket_timer_timeout() -> void:
+	speech_basket.visible = false
+
 func check_game_over() -> void:
 	if mouse_hidden:
 		return
-
+  
 	if eggs_left <= 0 and dropped_eggs.is_empty() and not holding_egg:
 		self.set_visibility(false)
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 		if score >= needed_eggs:
 			minigame.end_game("a", 10)
 		else:

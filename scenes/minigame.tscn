@@ -1,16 +1,27 @@
-[gd_scene load_steps=4 format=3 uid="uid://bo523bqqlcmqp"]
+[gd_scene load_steps=6 format=3 uid="uid://bo523bqqlcmqp"]
 
 [ext_resource type="PackedScene" uid="uid://bgo3thwbke66k" path="res://scenes/draw_circle/draw_circle_game.tscn" id="1_5iev5"]
 [ext_resource type="PackedScene" uid="uid://ceb4ummjiwos4" path="res://scenes/rhythm/rhythm_game.tscn" id="2_hwsak"]
 [ext_resource type="PackedScene" uid="uid://tyk513g7amsn" path="res://scenes/egg/egg_game.tscn" id="3_22ed1"]
+[ext_resource type="PackedScene" uid="uid://cth1na3l27wx2" path="res://scenes/videocall/call_game.tscn" id="4_0dp5x"]
+[ext_resource type="PackedScene" uid="uid://dmj04eo5jund8" path="res://scenes/dialogue/dialogue_game.tscn" id="5_qfvgk"]
 
 [node name="minigame" type="Node2D"]
-
-[node name="draw_circle_game" parent="." instance=ExtResource("1_5iev5")]
-visible = false
 
 [node name="rhythm_game" parent="." instance=ExtResource("2_hwsak")]
 visible = false
 
+[node name="draw_circle_game" parent="." instance=ExtResource("1_5iev5")]
+visible = false
+
+[node name="q2" parent="." instance=ExtResource("5_qfvgk")]
+visible = false
+
+[node name="call_game" parent="." instance=ExtResource("4_0dp5x")]
+visible = false
+
 [node name="egg_game" parent="." instance=ExtResource("3_22ed1")]
+visible = false
+
+[node name="q1" parent="." instance=ExtResource("5_qfvgk")]
 visible = false

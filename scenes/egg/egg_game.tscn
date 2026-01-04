@@ -2,10 +2,10 @@
 
 [ext_resource type="Script" uid="uid://bytph4p4ehaq" path="res://scenes/egg/egg_game.gd" id="1_8d3q0"]
 [ext_resource type="PackedScene" uid="uid://kdhs8in64j0x" path="res://scenes/egg/egg.tscn" id="1_mh6vc"]
-[ext_resource type="Texture2D" uid="uid://b6jqa3s1gg7g5" path="res://assets/egg/background.png" id="2_wvl8l"]
-[ext_resource type="Texture2D" uid="uid://dn586k784kcys" path="res://assets/egg/egg_basket.png" id="3_nrl2o"]
-[ext_resource type="Texture2D" uid="uid://c0vvmpvcgqlsc" path="res://assets/egg/little_egg.png" id="4_jwhts"]
-[ext_resource type="Texture2D" uid="uid://bvcct31yun0p3" path="res://assets/egg/speech_bubble.png" id="6_wvl8l"]
+[ext_resource type="Texture2D" uid="uid://co7j73kmf4ur6" path="res://assets/egg/background.png" id="2_wvl8l"]
+[ext_resource type="Texture2D" uid="uid://d21xlte1knckx" path="res://assets/egg/egg_basket.png" id="3_nrl2o"]
+[ext_resource type="Texture2D" uid="uid://cvcfnkn8l0eto" path="res://assets/egg/little_egg.png" id="4_jwhts"]
+[ext_resource type="Texture2D" uid="uid://68aulwxkjenv" path="res://assets/egg/speech_bubble.png" id="6_wvl8l"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wvl8l"]
 size = Vector2(338, 200)
@@ -49,17 +49,18 @@ position = Vector2(480, 811)
 shape = SubResource("RectangleShape2D_8d3q0")
 
 [node name="score_label" type="Label" parent="."]
-offset_left = 10.0
-offset_top = 572.0
-offset_right = 927.0
-offset_bottom = 595.0
-horizontal_alignment = 2
+offset_left = 46.0
+offset_top = 1035.0
+offset_right = 364.0
+offset_bottom = 1058.0
+horizontal_alignment = 1
 
 [node name="egg_label" type="Label" parent="."]
-offset_left = 989.0
-offset_top = 572.0
-offset_right = 1029.0
-offset_bottom = 599.0
+offset_left = 1508.0
+offset_top = 1035.0
+offset_right = 1845.0
+offset_bottom = 1062.0
+horizontal_alignment = 1
 
 [node name="speech_bubble" type="Node2D" parent="."]
 
@@ -93,3 +94,20 @@ offset_top = 589.0
 offset_right = 1526.0
 offset_bottom = 612.0
 text = "DON'T leave eggs here"
+
+[node name="speech_basket" type="Node2D" parent="."]
+
+[node name="speech_label" type="Label" parent="speech_basket"]
+offset_left = 1255.0
+offset_top = 644.0
+offset_right = 1423.0
+offset_bottom = 770.0
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="Sprite2D" type="Sprite2D" parent="speech_basket"]
+position = Vector2(1345, 731)
+scale = Vector2(0.275, 0.275)
+texture = ExtResource("6_wvl8l")
+flip_h = true

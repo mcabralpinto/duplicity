@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://gdf6ir2hmcr4"]
+[gd_scene load_steps=11 format=3 uid="uid://gdf6ir2hmcr4"]
 
 [ext_resource type="PackedScene" uid="uid://ctaqn5nlb2787" path="res://scenes/main_frame.tscn" id="1_mdb5f"]
 [ext_resource type="Script" uid="uid://c8wcfrfwe7l16" path="res://scenes/duplicity.gd" id="1_pf8ef"]
@@ -7,7 +7,9 @@
 [ext_resource type="Script" uid="uid://2rsn7k2svwie" path="res://scenes/minigame.gd" id="6_pf8ef"]
 [ext_resource type="PackedScene" uid="uid://bo523bqqlcmqp" path="res://scenes/minigame.tscn" id="7_lw4ws"]
 [ext_resource type="PackedScene" uid="uid://dd3wagnxel6ow" path="res://scenes/logger.tscn" id="7_x5lu1"]
-[ext_resource type="Texture2D" uid="uid://8a4gx6cjggm2" path="res://assets/canvas.png" id="8_x5lu1"]
+[ext_resource type="Texture2D" uid="uid://cb5iwso5wshxo" path="res://assets/canvas.png" id="8_x5lu1"]
+[ext_resource type="Texture2D" uid="uid://bv6p0ixps1i04" path="res://assets/coxinha.png" id="9_jbl18"]
+[ext_resource type="Texture2D" uid="uid://dqqn4gf00g7vx" path="res://assets/waiting.png" id="10_ud48m"]
 
 [node name="duplicity" type="Node2D"]
 script = ExtResource("1_pf8ef")
@@ -30,3 +32,32 @@ script = ExtResource("6_pf8ef")
 [node name="minigame_bg" type="Sprite2D" parent="."]
 position = Vector2(960, 811)
 texture = ExtResource("8_x5lu1")
+
+[node name="left_label" type="Label" parent="."]
+offset_left = 5.0
+offset_top = 546.0
+offset_right = 956.0
+offset_bottom = 1075.0
+text = "[SPACEBAR] to skip"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="right_label" type="Label" parent="."]
+offset_left = 964.0
+offset_top = 546.0
+offset_right = 1915.0
+offset_bottom = 1075.0
+text = "[LMOUSE] to skip"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="coxinha" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(947, 322)
+texture = ExtResource("9_jbl18")
+
+[node name="waiting_room" type="Sprite2D" parent="."]
+position = Vector2(1379.0001, 194.2296)
+scale = Vector2(3.0568001, 1.5189795)
+texture = ExtResource("10_ud48m")
+offset = Vector2(-137, 50)

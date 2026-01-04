@@ -1,15 +1,21 @@
-[gd_scene load_steps=3 format=3 uid="uid://b25iadv7l7270"]
+[gd_scene load_steps=4 format=3 uid="uid://b25iadv7l7270"]
 
-[ext_resource type="Texture2D" uid="uid://dxt1cen1ewvp0" path="res://assets/draw_circle/terminal.png" id="1_8j01x"]
-[ext_resource type="Script" uid="uid://djixqgaw2b4ks" path="res://scenes/draw_circle/left/left.gd" id="1_340e6"]
+[ext_resource type="Script" uid="uid://dmifdrjklw3ps" path="res://scenes/draw_circle/left/left.gd" id="1_340e6"]
+[ext_resource type="Texture2D" uid="uid://bmmr4xewatekn" path="res://assets/draw_circle/canvas.png" id="2_340e6"]
+[ext_resource type="Texture2D" uid="uid://gwb7lqq74aj2" path="res://assets/draw_circle/marker.png" id="3_1qsbv"]
 
 [node name="draw_circle_left" type="Node2D"]
 script = ExtResource("1_340e6")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("1_8j01x")
+[node name="background" type="Sprite2D" parent="."]
+texture = ExtResource("2_340e6")
 centered = false
 
 [node name="Label" type="Label" parent="."]
 offset_right = 950.0
-offset_bottom = 529.0
+offset_bottom = 488.0
+
+[node name="marker" type="Sprite2D" parent="."]
+position = Vector2(473.00003, 295)
+scale = Vector2(1.2, 1.2)
+texture = ExtResource("3_1qsbv")

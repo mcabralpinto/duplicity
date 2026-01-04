@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://diw5wdd87t5s2"]
 
 [ext_resource type="Script" uid="uid://706dvgvq44if" path="res://scenes/draw_circle/right/right.gd" id="1_yby0r"]
-[ext_resource type="Texture2D" uid="uid://dye7lpa2exaf0" path="res://assets/draw_circle/canvas2.png" id="2_eracy"]
+[ext_resource type="Texture2D" uid="uid://dar66oy5p0oua" path="res://assets/draw_circle/canvas2.png" id="2_eracy"]
 [ext_resource type="PackedScene" uid="uid://0jyki3bbxi1a" path="res://scenes/draw_circle/right/pencil.tscn" id="2_tblas"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yby0r"]
@@ -23,3 +23,8 @@ shape = SubResource("RectangleShape2D_yby0r")
 [node name="pencil" parent="." instance=ExtResource("2_tblas")]
 position = Vector2(475, 265)
 script = null
+
+[node name="feedback" type="Label" parent="."]
+offset_right = 1.0
+offset_bottom = 58.0
+horizontal_alignment = 1

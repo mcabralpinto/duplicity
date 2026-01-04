@@ -1,0 +1,73 @@
+[gd_scene load_steps=5 format=3 uid="uid://dmj04eo5jund8"]
+
+[ext_resource type="Script" uid="uid://pjiux2r58fcu" path="res://scenes/dialogue/dialogue_game.gd" id="1_aj0wm"]
+[ext_resource type="Texture2D" uid="uid://bl4kp1n27fpb" path="res://assets/dialogue/arrows.png" id="2_krwcl"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_aj0wm"]
+size = Vector2(19, 12)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_krwcl"]
+size = Vector2(205, 25)
+
+[node name="dialogue_game" type="Node2D"]
+script = ExtResource("1_aj0wm")
+
+[node name="left_arrows" type="Sprite2D" parent="."]
+position = Vector2(479, 809)
+texture = ExtResource("2_krwcl")
+
+[node name="right_arrows" type="Sprite2D" parent="."]
+position = Vector2(1439, 806)
+texture = ExtResource("2_krwcl")
+
+[node name="top_arrow" type="Area2D" parent="right_arrows"]
+
+[node name="collision" type="CollisionShape2D" parent="right_arrows/top_arrow"]
+position = Vector2(-0.5, -38)
+shape = SubResource("RectangleShape2D_aj0wm")
+
+[node name="bottom_arrow" type="Area2D" parent="right_arrows"]
+
+[node name="collision" type="CollisionShape2D" parent="right_arrows/bottom_arrow"]
+position = Vector2(-0.5, 38)
+shape = SubResource("RectangleShape2D_aj0wm")
+
+[node name="left_label" type="Label" parent="."]
+offset_left = 5.0
+offset_top = 546.0
+offset_right = 955.0
+offset_bottom = 1074.0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="right_label" type="Label" parent="."]
+offset_left = 966.0
+offset_top = 546.0
+offset_right = 1916.0
+offset_bottom = 1074.0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="left_lock" type="Label" parent="."]
+offset_top = 940.0
+offset_right = 955.0
+offset_bottom = 1038.0
+text = "[Y] to lock"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="right_lock" type="Label" parent="."]
+offset_left = 961.0
+offset_top = 940.0
+offset_right = 1916.0
+offset_bottom = 1038.0
+text = "Click here to lock"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="lock" type="Area2D" parent="right_lock"]
+visible = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="right_lock/lock"]
+position = Vector2(475.5, 85.5)
+shape = SubResource("RectangleShape2D_krwcl")
