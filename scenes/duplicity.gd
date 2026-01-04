@@ -19,12 +19,18 @@ var score := 0
 # false = space turn, true = mouse turn
 var mouse_turn := false
 var was_mouse_pressed := false
+var was_y_pressed := false
 var game_on = false
+
+# pre-start confirmations
+var left_confirmed := false
+var right_confirmed := false
+var prestart_waiting := false
 
 func _ready() -> void:
 	game_on = false
 	interview_scene.z_index = 10
-	main_frame.z_index = 20
+	main_frame.z_index = 21
 	minigame_bg.z_index = -20
 	left_label.z_index = -19
 	right_label.z_index = -19
@@ -40,25 +46,86 @@ func _ready() -> void:
 	right_label.add_theme_font_size_override("font_size", 20)
 	right_label.add_theme_font_override("font", font)
 	
-	if section != 0:
-		caption.set_visibility(true)
-		caption.set_text(section, line)
+	# start: caption hidden, labels show initial confirm instructions (both active/white)
+	caption.set_visibility(false)
+	left_label.visible = true
+	right_label.visible = true
+	left_label.text = "Left Player uses the keyboard\n[Y] to confirm"
+	right_label.text = "Right Player uses the mouse\n[LMOUSE] to confirm"
+	var white = Color(1, 1, 1)
+	left_label.modulate = white
+	right_label.modulate = white
+
 	update_turn_visuals()
 
 func update_turn_visuals() -> void:
 	var white = Color(1, 1, 1)
 	var gray = Color(0.4, 0.4, 0.4)
-	if mouse_turn:
-		# mouse turn: left gray, right white
-		left_label.modulate = gray
-		right_label.modulate = white
-	else:
-		# space turn: left white, right gray
-		left_label.modulate = white
-		right_label.modulate = gray
+	# during normal dialogue, indicate active side; if both labels are meant to be white (pre-start), they are set elsewhere
+	if caption.visible:
+		if mouse_turn:
+			# mouse turn: left gray, right white
+			left_label.modulate = gray
+			right_label.modulate = white
+		else:
+			# space turn: left white, right gray
+			left_label.modulate = white
+			right_label.modulate = gray
 
 func toggle_turn() -> void:
 	mouse_turn = not mouse_turn
+	update_turn_visuals()
+
+# Animate waiting_room scale up over 5s then hide it.
+func animate_waiting_room() -> void:
+	minigame_bg.z_index = 20
+	left_label.z_index = 21
+	right_label.z_index = 21
+	waiting_room.visible = true
+	var start_scale = waiting_room.scale
+	var target_scale = start_scale * 500
+
+	var tween = get_tree().create_tween()
+	# first phase: slow start (ease in) to mid point
+	var mid_scale = start_scale + (target_scale - start_scale) * 0.8
+	tween.tween_property(waiting_room, "scale", mid_scale, 2.5).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
+	# second phase: speed up to full target (continues accelerating)
+	#tween.tween_property(waiting_room, "scale", target_scale, 3.0).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
+
+	await tween.finished
+	waiting_room.visible = false
+	waiting_room.scale = start_scale
+	minigame_bg.z_index = -20
+	left_label.z_index = -19
+	right_label.z_index = -19
+
+# Start the waiting_room sequence: caption hidden, animate immediately,
+# after 1s show section (dialogue begins), animation runs for 5s total.
+func start_waiting_room_sequence() -> void:
+	caption.set_visibility(false)
+	# start animation asynchronously
+	animate_waiting_room()
+	# after 1s, start section dialogue
+	await get_tree().create_timer(3).timeout
+	caption.set_visibility(true)
+	caption.set_text(section, line)
+
+# pre-start: after both confirmations, wait 2s then change labels to skip messages and show caption for section 0
+func start_prestart_sequence() -> void:
+	prestart_waiting = true
+	await get_tree().create_timer(2).timeout
+	# restore skip texts and visuals, start section 0 dialogue
+	left_label.text = "[SPACEBAR] to skip"
+	right_label.text = "[LMOUSE] to skip"
+	var white = Color(1, 1, 1)
+	left_label.modulate = white
+	right_label.modulate = white
+	caption.set_visibility(true)
+	caption.set_text(section, line)
+	# reset confirmation flags so normal turn logic applies
+	left_confirmed = false
+	right_confirmed = false
+	prestart_waiting = false
 	update_turn_visuals()
 
 func process_minigame_end(change: int) -> void:
@@ -85,7 +152,28 @@ func _process(_delta: float) -> void:
 
 	# update mouse pressed helper early so "just pressed" detection works
 	var mouse_pressed_now = Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT)
+	var y_pressed_now = Input.is_key_pressed(KEY_Y)
 	
+	# pre-start confirmations (section 0, caption hidden)
+	if section == 0 and not caption.visible and not prestart_waiting:
+		# left confirm via Y (detect just-press by comparing previous state)
+		if not left_confirmed and y_pressed_now and not was_y_pressed:
+			left_confirmed = true
+			left_label.modulate = Color(0.4, 0.4, 0.4)
+		# right confirm via mouse left
+		if not right_confirmed and mouse_pressed_now and not was_mouse_pressed:
+			right_confirmed = true
+			right_label.modulate = Color(0.4, 0.4, 0.4)
+		if left_confirmed and right_confirmed:
+			start_prestart_sequence()
+		# update helper and continue
+		was_mouse_pressed = mouse_pressed_now
+		was_y_pressed = y_pressed_now
+		return
+
+	# update mouse pressed helper early so "just pressed" detection works
+	# mouse_pressed_now already set above; keep current value
+
 	if not caption.visible:
 		was_mouse_pressed = mouse_pressed_now
 		return
@@ -103,16 +191,7 @@ func _process(_delta: float) -> void:
 	# remember previous line to decide whether to toggle turn
 	var prev_line := line
 
-	# Special start (section 0) handling -> use current turn input to start
-	if section == 0 and active_pressed and caption.visible and was_just_pressed:
-		section = 1
-		logger.log_custom([section, line, score], "state", "section", str(section))
-		logger.log_custom([section, line, score], "event", "game_start", "")
-		caption.set_visibility(true)
-		caption.set_text(section, line)
-		# consume this press but do not toggle unless line changed
-		was_mouse_pressed = mouse_pressed_now
-		return
+	# (removed old special-start behavior; section 0 now begins after prestart sequence)
 
 	if active_pressed:
 		if was_just_pressed:
@@ -128,6 +207,8 @@ func _process(_delta: float) -> void:
 					logger.log_custom([section, line, score], "state", "line", str(line))
 				else:
 					if section not in minigame.game_map:
+						if section == 0:
+							start_waiting_room_sequence()
 						section += 1
 						logger.log_custom([section, line, score], "state", "section", str(section))
 						if section > caption.caption_map.size():
@@ -157,6 +238,7 @@ func _process(_delta: float) -> void:
 
 	# update was_mouse_pressed for next frame
 	was_mouse_pressed = mouse_pressed_now
+	was_y_pressed = y_pressed_now
 
 func _input(event):
 	if (event is InputEventKey or event is InputEventMouseButton) and event.pressed and not (event is InputEventKey and event.echo):

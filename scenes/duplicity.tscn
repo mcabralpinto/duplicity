@@ -57,7 +57,7 @@ position = Vector2(947, 322)
 texture = ExtResource("9_jbl18")
 
 [node name="waiting_room" type="Sprite2D" parent="."]
-position = Vector2(1379.0001, 194.2296)
-scale = Vector2(3.0568001, 1.5189795)
+position = Vector2(1379.0089, 194.2296)
+scale = Vector2(3.0567496, 1.5189795)
 texture = ExtResource("10_ud48m")
 offset = Vector2(-137, 50)
