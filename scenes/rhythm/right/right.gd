@@ -11,8 +11,8 @@ var score_per_hit = 10
 var score_penalty = 5
 var min_speed = 100.0
 var max_speed = 300.0
-var min_scale = 0.9
-var max_scale = 2.1
+var min_scale = 1.8
+var max_scale = 3.9
 
 # Widening (chaos) parameters
 var widen_delay = 5.0
@@ -44,10 +44,9 @@ func _ready() -> void:
 	# Hide the template dot
 	if static_dot:
 		static_dot.visible = false
-	
-	if score_label:
-		score_label.visible = true
-		score_label.modulate = Color.BLACK
+
+	background.z_index = -19
+	static_dot.z_index = -18
 	
 	screen_size = get_viewport_rect().size
 	# initialize dynamic ranges
@@ -108,6 +107,10 @@ func spawn_dot() -> void:
 
 	var dot_instance = static_dot.duplicate()
 	dot_instance.visible = true
+
+	var sprite = dot_instance.get_node("sprite")
+	if sprite:
+		sprite.texture = load("res://assets/rhythm2/right_ball_sad.png")
 	
 	# Calculate spawn area based on background (top quarter)
 	# Assuming background is a ColorRect or Sprite covering the top area
@@ -129,9 +132,8 @@ func spawn_dot() -> void:
 	var velocity = Vector2(cos(random_angle), sin(random_angle)) * random_speed
 	
 	dot_instance.set_meta("velocity", velocity)
-	
-	# Random color
-	dot_instance.modulate = Color(randf(), randf(), randf())
+	# mark as not clicked so click handling can ignore duplicates
+	dot_instance.set_meta("clicked", false)
 	
 	# Random scale
 	var random_scale = randf_range(min_scale, max_scale)
@@ -145,20 +147,38 @@ func _input(event: InputEvent) -> void:
 		return
 
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-		background.modulate = Color(randf(), randf(), randf()) 
 		var mouse_pos = get_global_mouse_position()
 		
 		# Check if we clicked a dot
 		for i in range(active_dots.size() - 1, -1, -1):
 			var dot = active_dots[i]
-			
+			# Skip already-clicked dots
+			if dot.get_meta("clicked", false):
+				continue
 			# Simple distance check for clicking (assuming dot radius approx 30px)
 			# Adjust hit radius based on scale
 			var hit_radius = 30.0 * dot.scale.x
 			if dot.global_position.distance_to(mouse_pos) < hit_radius:
-				active_dots.remove_at(i)
-				dot.queue_free()
+				var sprite = dot.get_node("sprite")
+				if sprite:
+					sprite.texture = load("res://assets/rhythm2/right_ball_happy.png")
+				var stream = load("res://sounds/sfx/rhythm/bark.wav")
+				print(dot.get_node("player").get_class())
+				dot.get_node("player").stream = stream
+				dot.get_node("player").volume_db = 0
+				dot.get_node("player").pitch_scale = randf_range(0.5, 2)
+				dot.get_node("player").play()
+				# mark clicked to avoid re-clicks; keep it visible for 5s
+				dot.set_meta("clicked", true)
 				change_score(score_per_hit)
+				# Wait 5 seconds before removing the dot from active list and freeing it
+				await get_tree().create_timer(5.0).timeout
+				# remove safely from active_dots (may have been removed already)
+				var idx = active_dots.find(dot)
+				if idx != -1:
+					active_dots.remove_at(idx)
+				if is_instance_valid(dot):
+					dot.queue_free()
 				return # Only click one at a time
 		
 		change_score(-score_penalty)

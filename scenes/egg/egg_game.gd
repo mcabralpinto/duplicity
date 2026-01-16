@@ -11,6 +11,8 @@ extends Node2D
 @onready var speech_label = $speech_bubble/speech_label
 @onready var speech_basket = $speech_basket
 @onready var speech_basket_label = $speech_basket/speech_label
+@onready var player = $player
+@onready var muncher = $muncher
 # @onready var instruction_label = $instruction_label
 # @onready var instruction2_label = $instruction2_label
 
@@ -36,6 +38,12 @@ func set_visibility(visibility: bool) -> void:
 	self.visible = visibility
 
 func run_game() -> void:
+	var stream = load("res://sounds/music/egg.mp3")
+	if stream:
+		player.connect("finished", Callable(self,"_on_loop_sound").bind(player))
+		player.volume_db = 0
+		player.stream = stream
+		player.play()
 	set_visibility(true)
 
 func _ready() -> void:
@@ -259,7 +267,7 @@ func feed_egg():
 	
 	check_game_over()
 	
-	await get_tree().create_timer(0.5).timeout
+	await get_tree().create_timer(1.7).timeout
 	if not holding_egg:
 		# Animation state will be corrected in _process if eggs exist
 		play_egg_anim("idle")
@@ -271,6 +279,12 @@ func update_egg_label():
 	egg_label.text = "eggs left: " + str(eggs_left)
 
 func play_egg_anim(anim: String) -> void:
+	if anim == "munching":
+		var munch = load("res://sounds/sfx/egg/egg_eating.mp3")
+		if munch:
+			muncher.stream = munch
+			muncher.volume_db = 10
+			muncher.play()
 	var sprite = egg.get_node_or_null("AnimatedSprite2D")
 	if sprite:
 		sprite.play(anim)
@@ -309,7 +323,7 @@ func eat_dropped_egg(index: int) -> void:
 	
 	check_game_over()
 	
-	await get_tree().create_timer(0.5).timeout
+	await get_tree().create_timer(1.7).timeout
 	if not holding_egg:
 		# Animation state will be corrected in _process if eggs exist
 		play_egg_anim("idle")
@@ -322,7 +336,7 @@ func show_speech(text: String) -> void:
 	# Reset timer
 	if speech_timer:
 		speech_timer.stop()
-		speech_timer.start(5.0)
+		speech_timer.start(10.0)
 
 func show_basket_speech(text: String) -> void:
 	if speech_basket_label:
@@ -336,7 +350,9 @@ func _on_speech_timer_timeout() -> void:
 	speech_bubble.visible = false
 	if mouse_hidden:
 		self.set_visibility(false)
+		player.stop()
 		minigame.end_game("c", -10)
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
 func _on_basket_timer_timeout() -> void:
 	speech_basket.visible = false
@@ -348,7 +364,11 @@ func check_game_over() -> void:
 	if eggs_left <= 0 and dropped_eggs.is_empty() and not holding_egg:
 		self.set_visibility(false)
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+		player.stop()
 		if score >= needed_eggs:
 			minigame.end_game("a", 10)
 		else:
 			minigame.end_game("b", -5)
+
+func _on_loop_sound(player):
+	player.play()

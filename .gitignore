@@ -22,3 +22,8 @@ mono_crash.*.json
 *.png.import
 *.jpeg.import
 *.ttf.import
+*.mp3.import
+*.wav.import
+*.ogv.uid
+# Local Netlify folder
+.netlify

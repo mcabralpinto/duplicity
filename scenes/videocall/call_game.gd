@@ -1,7 +1,11 @@
 extends Node2D
 
+signal finished_caption
+signal started_caption
+
 @onready var minigame = get_parent()
 @onready var caption = $caption
+@onready var shadow = $shadow
 @onready var left = $left
 @onready var right = $right
 @onready var left_frame = $left_frame
@@ -14,13 +18,16 @@ extends Node2D
 @onready var dokter_label = call_request.get_node("dokter")
 @onready var left_label = call_request.get_node("left")
 @onready var right_label = call_request.get_node("right")
+@onready var player = $player
+@onready var player2 = $player2
 
 var popped_up: bool = false
 var left_pressed: bool = false
 var right_pressed: bool = false
 
 # interruption counting and random phrases
-var interruptions_count: int = 0
+var left_interruptions: int = 0
+var right_interruptions: int = 0
 var interrupt_phrases: Array = [
 	"Please hold your questions.",
 	"Wait until I'm finished.",
@@ -35,7 +42,7 @@ var interrupt_phrases: Array = [
 ]
 var _rng: RandomNumberGenerator = RandomNumberGenerator.new()
 
-var speech = "Ah. You've joined the stream. Excellent. Synchronous particulate engagement is at... acceptable levels. Please, contain your enthusiasm; the digital air ducts can only handle so much fervor.\nThis is a mandatory, semi-annual, bi-quarterly, cross-departmental briefing on the implementation of Phase 7: Sub-Protocol Vermilion. The agenda is circular, so feel free to jump in at any point, though I warn you, the point is likely moving.\nFirstly, a moment of sonic recognition for the new ambient hum. That is not feedback. That is our newly installed 'Productive Dissonance' module, designed to subliminally encourage divergent thinking within convergent parameters. If you hear a melody, please report it to Compliance; you may be aligning too perfectly.\nNow, to the granularity. Our primary initiative this cycle is the Symbiotic Paperwork Inversion. We have found that documents are most potent not when they are filled, but when they are anticipated. Therefore, all TPS reports—and I am looking at the Denver annex specifically—must now be filed before the project ideation phase. You will be submitting forms detailing the outcomes of brainstorms you have not yet had, for clients who may not yet exist. This creates a beautiful, pressurized vacuum for success to rush into. Or, failing that, a vacuum.\nSecondly, a clarification on Metaphorical Literalization. The directive to 'think outside the box' has been deemed dangerously vague. What box? Of what dimensions? To remedy this, each team will be issued a physical, corrugated cardboard cube (1m x 1m x 1m). All brainstorming must be conducted by individuals physically stationed outside its perimeter. The box itself is to be labeled 'The Box.' Creativity is now quantifiable. Please note: sitting on the box is considered a lateral move and requires a separate form (PX-41B)\nThird point, and this is critical: the Inter-Departmental Aura Calibration. The memos about 'synergistic vibes' were not, as some of you in Accounting seem to have assumed, metaphorical. Harmonic resonators have been installed in all ceiling panels. By Friday, your personal emotional frequency must be tuned to a collective 'C# Minor - Ambitionately Pensive.' Resources has the tuning forks. Failure to harmonize may result in your coffee tasting slightly of static and regret\nNow, let's look at an example. Think of my Brazilian bird, Coxinha. Coxinha is not just an avian colleague; he is a model of resource allocation. See how he pecks? Each peck is a discrete data packet of hunger, directed at a non-nutritive substrate. This is what we call Inefficient Efficiency. He is engaged in a task with maximum effort and zero yield, which keeps him hungry, motivated, and, most importantly, in a state of perpetual process. We want you to be more like Coxinha. Peck with purpose at the meaningless.\nFinally, a reminder on Digital Posture. During these virtual engagements, I can, through proprietary screen-aura analysis, perceive the slant of your existential spine. A slouch implies a receptiveness to chaos. A perfect 90-degree angle suggests dangerous rigidity. The ideal is a gentle, 97-degree lean—forward enough to suggest engagement, but back enough to imply a deep, systemic skepticism. Practice this.\nAre there any questions? No? Splendid. Your silence has been logged as enthusiastic consent.\nThis meeting has been declared Productively Redundant. All action items generated herein are to be archived in the Circuitous Pending folder, which, as you know, is metaphorically represented by a digital ouroboros eating a manila envelope.\nYou may now return to your previously scheduled inertia. Remember: ~~ Company™ ~~ is not a family. It is a carefully curated ecosystem of mutually assured distraction. Carry that with you.\nDokterr out."
+var speech = "Ah. You've joined the stream. Excellent. Synchronous particulate engagement is at... acceptable levels. Please, contain your enthusiasm; the digital air ducts can only handle so much fervor.\nThis is a mandatory, semi-annual, bi-quarterly, cross-departmental briefing on the implementation of Phase 7: Sub-Protocol Vermilion. The agenda is circular, so feel free to jump in at any point, though I warn you, the point is likely moving. If you do throw in a few interjections, remember to ALWAYS do so in a BALANCED MANNER.\nFirstly, a moment of sonic recognition for the new ambient hum. That is not feedback. That is our newly installed 'Productive Dissonance' module, designed to subliminally encourage divergent thinking within convergent parameters. If you hear a melody, please report it to Compliance; you may be aligning too perfectly.\nNow, to the granularity. Our primary initiative this cycle is the Symbiotic Paperwork Inversion. We have found that documents are most potent not when they are filled, but when they are anticipated. Therefore, all TPS reports—and I am looking at the Denver annex specifically—must now be filed before the project ideation phase. You will be submitting forms detailing the outcomes of brainstorms you have not yet had, for clients who may not yet exist. This creates a beautiful, pressurized vacuum for success to rush into. Or, failing that, a vacuum.\nSecondly, a clarification on Metaphorical Literalization. The directive to 'think outside the box' has been deemed dangerously vague. What box? Of what dimensions? To remedy this, each team will be issued a physical, corrugated cardboard cube (1m x 1m x 1m). All brainstorming must be conducted by individuals physically stationed outside its perimeter. The box itself is to be labeled 'The Box.' Creativity is now quantifiable. Please note: sitting on the box is considered a lateral move and requires a separate form (PX-41B)\nThird point, and this is critical: the Inter-Departmental Aura Calibration. The memos about 'synergistic vibes' were not, as some of you in Accounting seem to have assumed, metaphorical. Harmonic resonators have been installed in all ceiling panels. By Friday, your personal emotional frequency must be tuned to a collective 'C# Minor - Ambitionately Pensive.' Resources has the tuning forks. Failure to harmonize may result in your coffee tasting slightly of static and regret\nNow, let's look at an example. Think of my Brazilian bird, Coxinha. Coxinha is not just an avian colleague; he is a model of resource allocation. See how he pecks? Each peck is a discrete data packet of hunger, directed at a non-nutritive substrate. This is what we call Inefficient Efficiency. He is engaged in a task with maximum effort and zero yield, which keeps him hungry, motivated, and, most importantly, in a state of perpetual process. We want you to be more like Coxinha. Peck with purpose at the meaningless.\nFinally, a reminder on Digital Posture. During these virtual engagements, I can, through proprietary screen-aura analysis, perceive the slant of your existential spine. A slouch implies a receptiveness to chaos. A perfect 90-degree angle suggests dangerous rigidity. The ideal is a gentle, 97-degree lean—forward enough to suggest engagement, but back enough to imply a deep, systemic skepticism. Practice this.\nAre there any questions? No? Splendid. Your silence has been logged as enthusiastic consent.\nThis meeting has been declared Productively Redundant. All action items generated herein are to be archived in the Circuitous Pending folder, which, as you know, is metaphorically represented by a digital ouroboros eating a manila envelope.\nYou may now return to your previously scheduled inertia. Remember: ~~ Company™ ~~ is not a family. It is a carefully curated ecosystem of mutually assured distraction. Carry that with you.\nDokterr out."
 
 # caption slow-print state
 var _full_text: String = ""
@@ -83,6 +90,32 @@ func _end_game(code: String, score: int) -> void:
 	set_visibility(false)	
 	minigame.end_game(code, score)
 
+func decide_end_game() -> void:
+	var total := left_interruptions + right_interruptions
+	# if sum exceeds 4 -> immediate failure
+	if total > 4:
+		player2.stop()
+		_end_game("b", -10)
+		return
+	# below 2 interruptions
+	if total < 2:
+		player2.stop()
+		_end_game("a", -5)
+		return
+	# below 5 and unequal left/right
+	if total < 5 and right_interruptions != left_interruptions:
+		player2.stop()
+		_end_game("c", -5)
+		return
+	# below 5 and equal left/right
+	if total < 5 and right_interruptions == left_interruptions:
+		player2.stop()
+		_end_game("d", 10)
+		return
+	# fallback
+	player2.stop()
+	_end_game("b", -10)
+
 func run_game() -> void:
 	# reset press state and label colors for this round
 	left_pressed = false
@@ -92,22 +125,40 @@ func run_game() -> void:
 	left_frame.visible = false
 	right_frame.visible = false
 
+	# reset interruption counters
+	left_interruptions = 0
+	right_interruptions = 0
+
 	# make sure this node is visible so the request can animate
 	set_visibility(true)
 
 	# show and grow the call_request
+	var stream = load("res://sounds/sfx/videocall/skype_call.mp3")
+	if stream:
+		player.connect("finished", Callable(self,"_on_loop_sound").bind(player))
+		player.volume_db = 10
+		player.stream = stream
+		player.play()
 	call_request.visible = true
 	call_request.scale = Vector2(0.01, 0.01)
 	var grow_tween = create_tween()
 	grow_tween.tween_property(call_request, "scale", Vector2(1, 1), 0.25)
 	await grow_tween.finished
+	
 
 	popped_up = true
-
 
 	# wait until both controls have been pressed at least once (order doesn't matter)
 	while not (left_pressed and right_pressed):
 		await get_tree().process_frame
+	
+	player.stop()
+	stream = load("res://sounds/music/videocall.mp3")
+	if stream:
+		player2.connect("finished", Callable(self,"_on_loop_sound").bind(player))
+		player2.volume_db = 10
+		player2.stream = stream
+		player2.play()
 
 	# shrink and hide the call_request while sliding frame pushes (all concurrently)
 	var l_target = l_frame_push.position + Vector2(480, 0)
@@ -157,6 +208,11 @@ func _ready() -> void:
 	caption.add_theme_color_override("font_color", Color.YELLOW)
 	caption.add_theme_font_override("font", font)
 
+	shadow.z_index = 20
+	shadow.add_theme_font_size_override("font_size", 24)
+	shadow.add_theme_color_override("font_color", Color.BLACK)
+	shadow.add_theme_font_override("font", font)
+
 	call_label.z_index = 41
 	call_label.add_theme_font_size_override("font_size", 28)
 	call_label.add_theme_color_override("font_color", Color.WHITE)
@@ -184,9 +240,19 @@ func display_text_slowly(text: String, interval: float = INITIAL_INTERVAL) -> vo
 	_full_text = text
 	_char_index = 0
 	caption.text = ""
+	shadow.text = ""
 	full_display = false
 	_paused = false
 	_speed_stage = 0
+
+	var stream = load("res://sounds/sfx/voices/interviewer2.wav")
+	player.pitch_scale = randf_range(0.8, 0.9)
+	if stream:
+		player.stream = stream
+		# Start at a random position in the audio
+		var random_offset = randf() * stream.get_length()
+		player.play(random_offset)
+	emit_signal("started_caption")
 
 	if _timer:
 		_timer.stop()
@@ -223,8 +289,11 @@ func _on_timer_timeout():
 		return
 	if _char_index < _full_text.length():
 		caption.text += _full_text[_char_index]
+		shadow.text += _full_text[_char_index]
 		_char_index += 1
 	else:
+		player.stop()
+		emit_signal("finished_caption")
 		_timer.stop()
 		if _speed_timer:
 			_speed_timer.stop()
@@ -232,14 +301,15 @@ func _on_timer_timeout():
 			_pause_timer.stop()
 		set_process_input(false)
 		full_display = true
-		# finished normally -> success end
-		_end_game("a", 5)
+		# finished -> decide final end based on interruptions
+		decide_end_game()
 
 func _on_speed_timer_timeout():
 	if full_display:
 		return
 	if _speed_stage < 1:
 		_timer.wait_time = _timer.wait_time / DIVIDE_BY
+		player.pitch_scale *= (DIVIDE_BY / 4)
 		_speed_stage += 1
 	if _speed_stage < 1:
 		_speed_timer.wait_time = SPEED_UP_AFTER
@@ -259,7 +329,10 @@ func _on_pause_timeout():
 
 func finish_animation():
 	if not full_display:
+		player.stop()
+		emit_signal("finished_caption")
 		caption.text = _full_text
+		shadow.text = _full_text
 		_char_index = _full_text.length()
 		if _timer:
 			_timer.stop()
@@ -269,7 +342,8 @@ func finish_animation():
 			_pause_timer.stop()
 		set_process_input(false)
 		full_display = true
-		_end_game("a", 5)
+		# decide final end based on interruptions
+		decide_end_game()
 
 func _input(event):
 	if popped_up:
@@ -281,36 +355,44 @@ func _input(event):
 			right_label.add_theme_color_override("font_color", Color(0, 1, 0))
 	# handle interrupt sequence on space or left mouse while caption is printing
 	if not full_display and _timer:
-		var triggered := false
 		# only count presses that happen after the request is already hidden
 		if event.is_action_pressed("ui_accept") and not call_request.visible:
 			left_frame.visible = true
-			triggered = true
+			start_interrupt_sequence("left")
+			left.texture = load("res://assets/videocall/left3.png")
 		elif event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT and not call_request.visible:
 			right_frame.visible = true
-			triggered = true
-		if triggered:
-			start_interrupt_sequence()
+			start_interrupt_sequence("right")
+			right.texture = load("res://assets/videocall/right3.png")
 
 func _process(_delta: float) -> void:
 	if popped_up:
 		# reflect whether each control has been pressed at least once
 		if not Input.is_action_pressed("ui_accept"):
 			left_frame.visible = false
+			left.texture = load("res://assets/videocall/left2.png")
 		if not Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 			right_frame.visible = false
+			right.texture = load("res://assets/videocall/right2.png")
 
-func start_interrupt_sequence() -> void:
+func start_interrupt_sequence(source: String) -> void:
 	if _interrupt_in_progress or full_display or _ended:
 		return
 	_interrupt_in_progress = true
 	_paused = true
 
-	# count this interruption
-	interruptions_count += 1
+	player.stop()
+	emit_signal("finished_caption")
+	# count this interruption separately for mouse and keyboard
+	if source == "left":
+		left_interruptions += 1
+	elif source == "right":
+		right_interruptions += 1
 
 	# if too many interruptions -> immediate failure end
-	if interruptions_count >= 5:
+	var total := left_interruptions + right_interruptions
+	if total > 4:
+		player2.stop()
 		_end_game("b", -10)
 		return
 
@@ -323,6 +405,7 @@ func start_interrupt_sequence() -> void:
 	# delay 0.5s then clear caption
 	await get_tree().create_timer(0.5).timeout
 	caption.text = ""
+	shadow.text = ""
 
 	# wait until 1s of neither being pressed
 	var stable := 0.0
@@ -336,20 +419,36 @@ func start_interrupt_sequence() -> void:
 		else:
 			stable += get_process_delta_time()
 
+	var stream = load("res://sounds/sfx/voices/interviewer2.wav")
+	player.pitch_scale = randf_range(0.8, 0.9)
+	if stream:
+		player.stream = stream
+		# Start at a random position in the audio
+		var random_offset = randf() * stream.get_length()
+		player.play(random_offset)
+	emit_signal("started_caption")		
+
 	# show a random warning for 2s
 	top_frame.visible = true
 	if interrupt_phrases.size() > 0:
 		var idx := _rng.randi_range(0, interrupt_phrases.size() - 1)
 		caption.text = interrupt_phrases[idx]
+		shadow.text = interrupt_phrases[idx]
 	else:
 		caption.text = "Do not interrupt me."
-	await get_tree().create_timer(2.0).timeout
+		shadow.text = "Do not interrupt me."
+	await get_tree().create_timer(1.0).timeout
 	if _ended:
 		return
+
+	player.stop()
+	emit_signal("finished_caption")
+	await get_tree().create_timer(1.0).timeout
 
 	# blank for 1s
 	top_frame.visible = false
 	caption.text = ""
+	shadow.text = ""
 	await get_tree().create_timer(1).timeout
 	if _ended:
 		return
@@ -357,6 +456,7 @@ func start_interrupt_sequence() -> void:
 	# restore where we left off and resume timers
 	top_frame.visible = true
 	caption.text = _full_text.substr(0, _char_index)
+	shadow.text = _full_text.substr(0, _char_index)
 
 	# Reset speed state so the same slow-then-fast behavior restarts
 	_speed_stage = 0
@@ -370,3 +470,10 @@ func start_interrupt_sequence() -> void:
 
 	_paused = false
 	_interrupt_in_progress = false
+
+	var random_offset = randf() * stream.get_length()
+	player.play(random_offset)
+	emit_signal("started_caption")
+
+func _on_loop_sound(p):
+	p.play()

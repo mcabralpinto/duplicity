@@ -3,6 +3,8 @@ extends Node2D
 @onready var rhythm_game = get_parent()
 @onready var static_dot = $dot
 @onready var score_label = $score_label
+@onready var bg = $bg
+@onready var player = $player
 
 # Game parameters (base values)
 var speed = 200.0
@@ -39,10 +41,10 @@ func set_widen_duration(duration: float) -> void:
 
 func _ready() -> void:
 	randomize()
+	bg.z_index = -19.1
 	# Hide the template dot
 	static_dot.visible = false
 	score_label.visible = true
-	score_label.modulate = Color.BLACK
 	update_score_label()
 	# initialize current ranges to base values
 	current_spawn_min = spawn_interval
@@ -73,11 +75,21 @@ func _process(delta: float) -> void:
 		# Check if dot passed the failure point without being hit
 		if not dot.get_meta("failed", false) and dot.position.x < static_dot.position.x + failure_point:
 			dot.set_meta("failed", true)
-			dot.get_node("sprite").modulate = Color.RED
+			dot.get_node("sprite").texture = load("res://assets/rhythm2/left_ball_" + dot.get_meta("required_key") + "_press.png")
 			change_score(-score_penalty)
+			# Start falling: set vertical velocity and acceleration
+			dot.set_meta("falling", true)
+			dot.set_meta("fall_velocity", 0.0)
 
-		# Remove if it goes too far left off-screen
-		if dot.position.x < -200:
+		# If dot is falling, apply vertical acceleration
+		if dot.get_meta("falling", false):
+			var v = dot.get_meta("fall_velocity", 0.0)
+			v += 1200.0 * delta # gravity
+			dot.set_meta("fall_velocity", v)
+			dot.position.y += v * delta
+
+		# Remove if it goes too far left off-screen or falls below screen
+		if dot.position.x < -200 or dot.position.y > 1200:
 			active_dots.remove_at(i)
 			dot.queue_free()
 
@@ -105,24 +117,27 @@ func spawn_dot() -> void:
 	dot_instance.visible = true
 
 	# Using the same vertical spacing logic: i * 51.25
-	dot_instance.position = Vector2(955, static_dot.position.y + (lane_index * 51.25))
+	dot_instance.position = Vector2(955, static_dot.position.y + (lane_index * 54.85))
+
+	dot_instance.get_node("sprite").texture = load("res://assets/rhythm2/left_ball_" + str(lane_index + 1) + ".png")
 
 	# Store the required key on the dot for easy access
 	dot_instance.set_meta("required_key", str(lane_index + 1))
 	dot_instance.set_meta("failed", false)
-	dot_instance.get_node("sprite").modulate = Color.BLACK
 
 	# Assign a per-dot speed sampled from the current speed window
 	var chosen_speed = randf_range(current_speed_min, current_speed_max)
 	dot_instance.set_meta("speed", chosen_speed)
 
 	add_child(dot_instance)
-	dot_instance.get_node("label").text = str(lane_index + 1)
+	#dot_instance.get_node("label").text = str(lane_index + 1)
 	active_dots.append(dot_instance)
 
 func _input(event: InputEvent) -> void:
 	if not rhythm_game.visible:
 		return
+	var already_discounted = false
+	var d_dot
 
 	if event is InputEventKey and event.pressed:
 		var key_pressed = event.as_text_key_label() # Gets "1", "2", etc.
@@ -139,13 +154,29 @@ func _input(event: InputEvent) -> void:
 			if dot.get_meta("required_key") == key_pressed:
 				# Check hit window
 				if abs(dot.position.x - static_dot.position.x) < hit_window:
+					var stream = load("res://sounds/sfx/rhythm/a_major/" + dot.get_meta("required_key") + ".mp3")
+					print(dot.get_node("player").get_class())
+					dot.get_node("player").stream = stream
+					dot.get_node("player").volume_db = 10
+					dot.get_node("player").play()
 					active_dots.remove_at(i)
+					dot.visible = false
+					await get_tree().create_timer(1).timeout
 					dot.queue_free()
 					change_score(score_per_hit)
-					break # Only destroy one dot per key press
-				else:
-					change_score(-1)
-					pass
+					print("Played sound for key: " + dot.get_meta("required_key"))
+					
+					return # Only destroy one dot per key press
+				elif not already_discounted:
+					already_discounted = true
+					d_dot = dot
+		if already_discounted:
+			var stream = load("res://sounds/sfx/rhythm/a_major/" + d_dot.get_meta("required_key") + ".mp3")
+			d_dot.get_node("player").stream = stream
+			d_dot.get_node("player").volume_db = 10
+			d_dot.get_node("player").pitch_scale = randf_range(0.9, 1.1) # random pitch correction
+			d_dot.get_node("player").play()
+			change_score(-1)
 
 func change_score(amount: int) -> void:
 	score += amount

@@ -1,11 +1,11 @@
 [gd_scene load_steps=9 format=3 uid="uid://cth1na3l27wx2"]
 
-[ext_resource type="Texture2D" uid="uid://c6vcws6ax2mi6" path="res://assets/videocall/left.jpeg" id="1_eroty"]
 [ext_resource type="Script" uid="uid://dxjfluoga3yui" path="res://scenes/videocall/call_game.gd" id="1_su5of"]
-[ext_resource type="Texture2D" uid="uid://bjdj23tlhj5jb" path="res://assets/videocall/right.jpeg" id="2_uhkq0"]
+[ext_resource type="Texture2D" uid="uid://cf566ph8g65mq" path="res://assets/videocall/left2.png" id="2_rctjo"]
+[ext_resource type="Texture2D" uid="uid://dcxbb5en1lnc" path="res://assets/videocall/right2.png" id="3_rctjo"]
 [ext_resource type="Texture2D" uid="uid://bxql483g2qqqd" path="res://assets/videocall/left_frame.png" id="3_uhkq0"]
 [ext_resource type="Texture2D" uid="uid://boafkqcgcmf3f" path="res://assets/videocall/right_frame.png" id="4_556oc"]
-[ext_resource type="Texture2D" uid="uid://c0ycqwbirrrq3" path="res://assets/videocall/call_1.png" id="6_l7odb"]
+[ext_resource type="Texture2D" uid="uid://m8r7uysumchw" path="res://assets/videocall/call_2.png" id="6_rctjo"]
 [ext_resource type="Texture2D" uid="uid://dguejnp81v2pg" path="res://assets/videocall/frame_push.png" id="7_85hg7"]
 [ext_resource type="Texture2D" uid="uid://huxvjmmstifd" path="res://assets/videocall/top_frame.png" id="9_85hg7"]
 
@@ -16,13 +16,13 @@ script = ExtResource("1_su5of")
 visible = false
 position = Vector2(480.55563, 810.5)
 scale = Vector2(0.7430557, 0.74305546)
-texture = ExtResource("1_eroty")
+texture = ExtResource("2_rctjo")
 
 [node name="right" type="Sprite2D" parent="."]
 visible = false
 position = Vector2(1439, 810.99994)
 scale = Vector2(0.7430554, 0.7430555)
-texture = ExtResource("2_uhkq0")
+texture = ExtResource("3_rctjo")
 
 [node name="left_frame" type="Sprite2D" parent="."]
 visible = false
@@ -36,7 +36,7 @@ texture = ExtResource("4_556oc")
 
 [node name="call_request" type="Sprite2D" parent="."]
 position = Vector2(956, 543)
-texture = ExtResource("6_l7odb")
+texture = ExtResource("6_rctjo")
 
 [node name="dokter" type="Label" parent="call_request"]
 offset_left = -194.0
@@ -92,3 +92,16 @@ offset_bottom = 531.0
 horizontal_alignment = 1
 vertical_alignment = 2
 autowrap_mode = 3
+
+[node name="shadow" type="Label" parent="."]
+offset_left = 482.0
+offset_top = -6242.0
+offset_right = 1442.0
+offset_bottom = 533.0
+horizontal_alignment = 1
+vertical_alignment = 2
+autowrap_mode = 3
+
+[node name="player" type="AudioStreamPlayer2D" parent="."]
+
+[node name="player2" type="AudioStreamPlayer2D" parent="."]

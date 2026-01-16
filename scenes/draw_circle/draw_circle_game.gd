@@ -2,6 +2,7 @@ extends Node2D
 
 @onready var minigame = get_parent()
 @onready var left = $draw_circle_left
+@onready var player = $player
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -12,10 +13,16 @@ func set_visibility(visibility: bool) -> void:
 
 func run_game() -> void:
 	set_visibility(true)
+	var stream = load("res://sounds/music/circle.wav")
+	if stream:
+		player.connect("finished", Callable(self,"_on_loop_sound").bind(player))
+		player.stream = stream
+		player.play()
 	left.start_game()
 
 func end_game(variant: String, change: int) -> void:
 	set_visibility(false)
+	player.stop()
 	# ensure the child stops its timers to avoid stray callbacks
 	if left and left.has_method("stop_game"):
 		left.stop_game()
@@ -24,3 +31,6 @@ func end_game(variant: String, change: int) -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
 	pass
+
+func _on_loop_sound(player):
+	player.play()

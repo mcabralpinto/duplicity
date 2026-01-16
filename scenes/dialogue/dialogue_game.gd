@@ -28,6 +28,9 @@ var _right_backup_list := []
 var _left_backup_index := 0
 var _right_backup_index := 0
 
+var _left_changed := false
+var _right_changed := false
+
 func set_visibility(visibility: bool) -> void:
 	self.visible = visibility
 
@@ -56,12 +59,14 @@ func _ready() -> void:
 	left_lock.add_theme_color_override("font_color", Color.WHITE)
 	left_lock.add_theme_font_override("font", font)
 	left_lock.visible = true
+	left_lock.text = "[ARROW KEYS] to change dialogue"
 
 	right_lock.z_index = 41
 	right_lock.add_theme_font_size_override("font_size", 20)
 	right_lock.add_theme_color_override("font_color", Color.WHITE)
 	right_lock.add_theme_font_override("font", font)
 	right_lock.visible = true
+	right_lock.text = "Click the arrows to change dialogue"
 
 	# ensure labels show initial values
 	if left_list.size() > 0:
@@ -73,8 +78,16 @@ func _input(event: InputEvent) -> void:
 	if self.visible:
 		if event.is_action_pressed("ui_up"):
 			_change_left_index(-1)
+			if not _left_changed:
+				_left_changed = true
+				left_lock.text = "[Y] to lock choice"
+				left_lock.add_theme_color_override("font_color", Color.WHITE)
 		elif event.is_action_pressed("ui_down"):
 			_change_left_index(1)
+			if not _left_changed:
+				_left_changed = true
+				left_lock.text = "[Y] to lock choice"
+				left_lock.add_theme_color_override("font_color", Color.WHITE)
 		elif event is InputEventKey and event.pressed and (event.unicode == ord("y") or event.unicode == ord("Y")):
 			_toggle_left_lock()
 
@@ -83,9 +96,17 @@ func _input(event: InputEvent) -> void:
 			var pos = get_global_mouse_position()
 			if _is_point_over(top_arrow, pos):
 				_change_right_index(-1)
+				if not _right_changed:
+					_right_changed = true
+					right_lock.text = "Click here to lock choice"
+					right_lock.add_theme_color_override("font_color", Color.WHITE)
 				return
 			if _is_point_over(bottom_arrow, pos):
 				_change_right_index(1)
+				if not _right_changed:
+					_right_changed = true
+					right_lock.text = "Click here to lock choice"
+					right_lock.add_theme_color_override("font_color", Color.WHITE)
 				return
 			if _is_point_over(right_lock_button, pos):
 				_toggle_right_lock()

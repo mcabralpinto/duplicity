@@ -1,8 +1,12 @@
 extends Node2D
 
+signal finished_caption
+
 var lines = {
 	"prelude":[
-		"Hey! You! Come on in!..."
+		"Greetings, everybody.",
+		"Oh... you're the only one here?",
+		"Well... come on in..."
 	],
 	"intro": [
 		"Greetings, participant in ongoing procedures.",
@@ -58,13 +62,22 @@ var lines = {
 		"(join the online meeting)"
 	],
 	"post3a": [
-		"You're a great listener... maybe too great... anyway..."
+		"You're a great listener! Too great, in fact.",
+		"Next time, even if you don't have anything to say, say it regardless."
 	],
 	"post3b": [
 		"Your interruptions revealed copious amounts of self-obsession.",
 		"Like you only like to hear yourself speak and nobody else.",
 		"You know these meetings are recorded, right?",
 		"I'll have to send one of my minions to edit the footage... embarassing!"
+	],
+	"post3c": [
+		"Interruptions of the workflow are encouraged. Not like that.",
+		"Next time, be more balanced in your interventions."
+	],
+	"post3d": [
+		"I was worried I was speaking too much and boring everyone.",
+		"Thank you for saving the meeting. Your effort will be noted." 
 	],
 	"pre4": [
 		"Moving on!",
@@ -89,6 +102,7 @@ var lines = {
 		"Such a lack of mental coordination."
 	],
 	"preq1": [
+		"...",
 		"By the way, how do you think you're doing?"
 	],
 	"postq1a1": [
@@ -103,16 +117,18 @@ var lines = {
 		"Hmmm..."
 	],
 	"postq1c": [
-		"You're looking for my approval. I can't tell you yet."
+		"I see you're looking for my approval. I can't tell you yet."
 	],
 	"preq2": [
+		"...",
 		"You seem a little distracted... are you taking this seriously?"
 	],
 	"postq2a1": [
 		"Ha! I can appreciate a sense of humor! That's a plus for you.",
 	],
 	"postq2b": [
-		"Wow... I... wasn't expecting that... sorry to hear..."
+		"Wow... I... wasn't expecting that...",
+		"Sorry to hear..."
 	],
 	"postq2c": [
 		"Not sure I believe you, but I'll let it slide."
@@ -131,7 +147,11 @@ var lines = {
 		"Excuse me for a second. Coxinha will keep you company.",
 	],
 	"delib":[
-		"You better not take my job."
+		"...",
+		"You better not take my job.",
+		"You'll be sorry if you do.",
+		"You don't want to mess with me.",
+		"You don't know the things I am capable of."
 	],
 	"outroa": [
 		"Now for your final verdict...",
@@ -172,21 +192,41 @@ var caption_map = {
 }
 
 @onready var label = $Label
+@onready var shadow_label = $shadowLabel
+@onready var player = $player
+
 var _full_text: String = ""
 var _char_index: int = 0
 var _timer: Timer = null
 var full_display: bool = true
+var section: int
+var flag = false
 
 func _ready():
+	# Set up main label
 	label.z_index = 100
 	label.add_theme_font_size_override("font_size", 36)
-	label.add_theme_color_override("font_color", Color.YELLOW)
-	
+	label.add_theme_color_override("font_color", Color(1, 1, 0)) # RGB for yellow
+	# Set up shadow label
+	shadow_label.z_index = 99
+	shadow_label.add_theme_font_size_override("font_size", 36)
+	shadow_label.add_theme_color_override("font_color", Color(0, 0, 0)) # Black for shadow
+	shadow_label.position = label.position + Vector2(2, 2) # Offset for shadow effect
+	# Font for both
 	var font = load("res://assets/PixelatedElegance.ttf")
 	if font:
 		label.add_theme_font_override("font", font)
+		shadow_label.add_theme_font_override("font", font)
+	player.connect("finished", Callable(self,"_on_loop_sound").bind(player))
 
 func set_text(section: int, line: int) -> void:
+	if section == 1 and line == 0 and flag == false:
+		flag = true
+		return
+
+	if section > 16:
+		return
+	self.section = section
 	var key = caption_map[section]
 	if lines.has(key):
 		display_text_slowly(lines[key][line])
@@ -196,11 +236,22 @@ func set_text(section: int, line: int) -> void:
 
 func set_visibility(visibility: bool) -> void:
 	visible = visibility
+	shadow_label.visible = visibility
 
 func display_text_slowly(text: String, interval: float = 0.05) -> void:
+	var stream = load("res://sounds/sfx/voices/interviewer2.wav" if self.section != 15 else "res://sounds/sfx/voices/coxinha2.wav")
+	label.add_theme_color_override("font_color", Color(1, 1, 0) if self.section != 15 else Color(0, 1, 0))
+	player.pitch_scale = randf_range(0.8, 0.9)
+	if stream and text[0] != "(":
+		player.stream = stream
+		player.volume_db = 10
+		# Start at a random position in the audio
+		var random_offset = randf() * stream.get_length()
+		player.play(random_offset)
 	_full_text = text
 	_char_index = 0
 	label.text = ""
+	shadow_label.text = ""
 	full_display = false
 	if _timer:
 		_timer.stop()
@@ -216,17 +267,26 @@ func display_text_slowly(text: String, interval: float = 0.05) -> void:
 func _on_timer_timeout():
 	if _char_index < _full_text.length():
 		label.text += _full_text[_char_index]
+		shadow_label.text += _full_text[_char_index]
 		_char_index += 1
 	else:
 		_timer.stop()
 		set_process_input(false)
 		full_display = true
+		emit_signal("finished_caption")
+		player.stop()
 
 func finish_animation():
 	if not full_display:
 		label.text = _full_text
+		shadow_label.text = _full_text
 		_char_index = _full_text.length()
 		if _timer:
 			_timer.stop()
 		set_process_input(false)
 		full_display = true
+		emit_signal("finished_caption")
+		player.stop()
+
+func _on_loop_sound(player):
+	player.play()

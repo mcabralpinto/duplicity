@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://c07romnd1q73v"]
 
 [ext_resource type="Script" uid="uid://dn5l7o3lwwge2" path="res://scenes/rhythm/dot.gd" id="1_dfckm"]
-[ext_resource type="Texture2D" uid="uid://di0fmuslf48ep" path="res://assets/rhythm/pip2.png" id="1_xvh3r"]
+[ext_resource type="Texture2D" uid="uid://ba3riuy8jl7v1" path="res://assets/rhythm2/right_ball_sad.png" id="2_dfckm"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pexx8"]
 size = Vector2(30, 30)
@@ -11,7 +11,7 @@ script = ExtResource("1_dfckm")
 
 [node name="sprite" type="Sprite2D" parent="."]
 scale = Vector2(0.28875002, 0.28875002)
-texture = ExtResource("1_xvh3r")
+texture = ExtResource("2_dfckm")
 
 [node name="Area2D" type="Area2D" parent="."]
 position = Vector2(-15, -15)
@@ -26,3 +26,5 @@ offset_top = -11.0
 offset_right = 15.0
 offset_bottom = 12.0
 horizontal_alignment = 1
+
+[node name="player" type="AudioStreamPlayer2D" parent="."]

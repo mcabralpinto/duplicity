@@ -12,3 +12,5 @@ position = Vector2(5, 546)
 
 [node name="draw_circle_right" parent="." instance=ExtResource("2_j0wtt")]
 position = Vector2(965, 546)
+
+[node name="player" type="AudioStreamPlayer2D" parent="."]

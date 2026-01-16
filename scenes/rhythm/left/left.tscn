@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://72hgaf8iwam6"]
 
 [ext_resource type="Script" uid="uid://b84kvrx3lwfqo" path="res://scenes/rhythm/left/left.gd" id="1_74ag5"]
-[ext_resource type="Texture2D" uid="uid://dsdy556i8j7ug" path="res://assets/rhythm/sheet2.png" id="2_74ag5"]
+[ext_resource type="Texture2D" uid="uid://chylb4lmkirbq" path="res://assets/rhythm2/left_frame2.png" id="2_74ag5"]
 [ext_resource type="PackedScene" uid="uid://c07romnd1q73v" path="res://scenes/rhythm/dot.tscn" id="2_lahfn"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_74ag5"]
@@ -9,9 +9,11 @@
 [node name="left" type="Node2D"]
 script = ExtResource("1_74ag5")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="bg" type="Sprite2D" parent="."]
 light_mask = 513
 visibility_layer = 513
+position = Vector2(-42.000004, -24.000002)
+scale = Vector2(0.91338575, 0.9133858)
 texture = ExtResource("2_74ag5")
 centered = false
 
@@ -22,6 +24,7 @@ position = Vector2(245, 154)
 script = null
 
 [node name="score_label" type="Label" parent="."]
+visible = false
 offset_left = 852.0
 offset_top = 18.0
 offset_right = 931.0
@@ -30,3 +33,5 @@ text = "
 "
 label_settings = SubResource("LabelSettings_74ag5")
 horizontal_alignment = 2
+
+[node name="player" type="AudioStreamPlayer2D" parent="."]
